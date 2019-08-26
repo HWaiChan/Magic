@@ -3,6 +3,7 @@ from pprint import pprint
 import copy
 from SpellDecoder import *
 
+
 class Singleton(type):
     _instances = {}
 
@@ -49,7 +50,6 @@ class TheWorld(metaclass=Singleton):
                         spelldecoder = SpellDecoder(speech)
                         spell = spelldecoder.decode_spell(j.coordinates)
                         self.add_spell(spell)
-
 
         for i in self.tiles:
             for j in i:
