@@ -3,8 +3,8 @@ from Props import Wizard
 
 the_world = TheWorld()
 
-Carl = Wizard(0)
-Bob = Wizard(0)
+Carl = Wizard('N', 0)
+Bob = Wizard('N', 0)
 the_world.tiles[5][5].props.append(Carl)
 the_world.tiles[5][7].props.append(Bob)
 Carl.shout('Cold 1 Create Square 3 Self 1')

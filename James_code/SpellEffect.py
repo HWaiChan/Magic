@@ -3,7 +3,7 @@ from Props import *
 
 
 class SpellEffect:
-    def __init__(self, level, action_type):
+    def __init__(self, level, action_type, orientation='N'):
         self.type = None
         self.setting_type = None
         self.action_type = action_type
@@ -11,6 +11,7 @@ class SpellEffect:
         self.start = None
         self.level = level
         self.velocity = 0
+        self.orientation = orientation
 
     def cost(self):
         return
@@ -25,8 +26,8 @@ class SpellEffect:
 
 
 class SpellEffectFire(SpellEffect):
-    def __init__(self, level, action_type):
-        SpellEffect.__init__(self, level, action_type)
+    def __init__(self, level, action_type, orientation='N'):
+        SpellEffect.__init__(self, level, action_type, orientation)
         self.type = 'Fire'
         self.setting_type = 'Temperature'
         self.base_cost = 1
@@ -37,8 +38,8 @@ class SpellEffectFire(SpellEffect):
 
 
 class SpellEffectCold(SpellEffect):
-    def __init__(self, level, action_type):
-        SpellEffect.__init__(self, level, action_type)
+    def __init__(self, level, action_type, orientation='N'):
+        SpellEffect.__init__(self, level, action_type, orientation)
         self.type = 'Cold'
         self.setting_type = 'Temperature'
         self.base_cost = 1
@@ -49,8 +50,8 @@ class SpellEffectCold(SpellEffect):
 
 
 class SpellEffectLightning(SpellEffect):
-    def __init__(self, level, action_type):
-        SpellEffect.__init__(self, level, action_type)
+    def __init__(self, level, action_type, orientation='N'):
+        SpellEffect.__init__(self, level, action_type, orientation)
         self.type = 'Lightning'
         self.setting_type = 'Power'
         self.base_cost = 1
@@ -61,20 +62,20 @@ class SpellEffectLightning(SpellEffect):
 
 
 class SpellEffectEarth(SpellEffect):
-    def __init__(self, level, action_type):
-        SpellEffect.__init__(self, level, action_type)
+    def __init__(self, level, action_type, orientation='N'):
+        SpellEffect.__init__(self, level, action_type, orientation)
         self.type = 'Earth'
         self.setting_type = 'Weight'
         self.base_cost = 1
 
     def create_prop(self):
         health = self.level * 50
-        return Boulder(health)
+        return Boulder(self.orientation, health)
 
 
 class SpellEffectTime(SpellEffect):
-    def __init__(self, level, action_type):
-        SpellEffect.__init__(self, level, action_type)
+    def __init__(self, level, action_type, orientation='N'):
+        SpellEffect.__init__(self, level, action_type, orientation)
         self.type = 'time'
         self.setting_type = 'Rate'
         self.base_cost = 10
