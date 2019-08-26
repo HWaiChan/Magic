@@ -18,8 +18,20 @@ class SpellDecoder:
 
     def decode_spell(self, position):
         spell_components = self.incantation.split()
-        effect = self.spell_effects_dict[spell_components[0]](spell_components[1], spell_components[2])
-        shape = self.shapes_dict[spell_components[3]](spell_components[4])
-        target = self.targeting_dict[spell_components[5]](spell_components[6], position)
+        for key in self.spell_effects_dict.keys():
+            if key in spell_components:
+                effect_index = spell_components.index(key)
+                effect = self.spell_effects_dict[spell_components[effect_index]](spell_components[effect_index + 1], spell_components[effect_index + 2])
+
+        for key in self.shapes_dict.keys():
+            if key in spell_components:
+                shape_index = spell_components.index(key)
+                shape = self.shapes_dict[spell_components[shape_index]](spell_components[shape_index + 1])
+
+        for key in self.targeting_dict.keys():
+            if key in spell_components:
+                targeting_index = spell_components.index(key)
+                target = self.targeting_dict[spell_components[targeting_index]](spell_components[targeting_index + 1], position)
+
         return Spell(effect, shape, target)
 
