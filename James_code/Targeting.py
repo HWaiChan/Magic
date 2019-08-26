@@ -29,5 +29,5 @@ class Point(Target):
         self.level = level
 
     def properties(self):
-        velocity = self.level * 5
+        velocity = self.level
         return self.starting_position, velocity

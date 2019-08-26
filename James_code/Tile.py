@@ -1,5 +1,4 @@
 from Props import *
-from Elements import *
 import inspect
 
 
@@ -15,6 +14,7 @@ class Tile:
     def resolve_tile(self):
         self.action_phase()
         self.elements_phase()
+        self.props_phase()
 
     def speech_phase(self):
         self.speech_log =[]
@@ -43,7 +43,15 @@ class Tile:
 
     def props_phase(self):
         for prop in self.props:
-            print('foo')
+            break
+
+    def move_phase(self):
+        props_that_want_to_move = []
+        for prop in self.props:
+            if prop.velocity > 0:
+                props_that_want_to_move.append(prop)
+                self.props.remove(prop)
+        return props_that_want_to_move
 
     def add_actions(self, action):
         self.actions.append(action)
