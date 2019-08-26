@@ -22,6 +22,11 @@ class SpellEffect:
                 elements.append(self.create_element())
             except:
                 props.append(self.create_prop())
+        elif self.action_type == 'Destroy':
+            try:
+                self.destroy_elements(elements)
+            except:
+                self.destroy_props(props)
         return elements, props
 
 
@@ -72,6 +77,11 @@ class SpellEffectEarth(SpellEffect):
         health = self.level * 50
         return Boulder(self.orientation, health)
 
+    def destroy_props(self, props):
+        for prop in props:
+            if isinstance(prop, Boulder):
+                props.remove(prop)
+        return props
 
 class SpellEffectTime(SpellEffect):
     def __init__(self, level, action_type, orientation='N'):

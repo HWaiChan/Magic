@@ -12,10 +12,9 @@ class Target:
 
 
 class Self(Target):
-    def __init__(self, level, starting_position):
+    def __init__(self, starting_position):
         Target.__init__(self, starting_position)
         self.base_cost = 1
-        self.level = 1
 
     def properties(self):
         velocity = 0
@@ -23,10 +22,9 @@ class Self(Target):
 
 
 class Point(Target):
-    def __init__(self, level, starting_position):
+    def __init__(self, starting_position):
         Target.__init__(self, starting_position)
         self.base_cost = 1
-        self.level = level
 
     def properties(self):
         velocity = self.level
