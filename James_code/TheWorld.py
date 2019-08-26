@@ -2,6 +2,8 @@ from Tile import Tile
 from pprint import pprint
 import copy
 from SpellDecoder import *
+from math import pi, cos, sin
+import numpy as np
 
 
 class Singleton(type):
@@ -34,11 +36,20 @@ class TheWorld(metaclass=Singleton):
         :return:
         """
         world_position = spell.target.starting_position
-        for tile_coords in spell.shape.get_relative_affected_tiles():
-            y = world_position[1] + tile_coords[0]
-            x = world_position[0] + tile_coords[1]
+        rotation_angle = spell.target.orientation * pi / 180
+
+        # TODO: abstract away the rotational matrix logic
+        rotational_matrix = [[cos(rotation_angle), -sin(rotation_angle)], [sin(rotation_angle), cos(rotation_angle)]]
+        print(rotational_matrix)
+        finished_coords = []
+        for relative_coords in spell.shape.get_relative_affected_tiles():
+            [rotated_y, rotated_x] = np.matmul(relative_coords, rotational_matrix)
+            shifted_y = world_position[1] + rotated_y
+            shifted_x = world_position[0] + rotated_x
+
+            finished_coords.append([shifted_y,shifted_x])
             spell_effect_copy = copy.copy(spell.spell_effect)
-            self.tiles[y][x].add_actions(spell_effect_copy)
+            self.tiles[int(round(shifted_y))][int(round(shifted_x))].add_actions(spell_effect_copy)
 
     def resolve_tiles(self):
         tile_speech_log = []

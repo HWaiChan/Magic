@@ -19,8 +19,8 @@ class Square(SpellShapes):
 
     def get_relative_affected_tiles(self):
         affected_tiles = []
-        for y in range(self.edge_size):
-            for x in range(self.edge_size):
+        for x in range(self.edge_size):
+            for y in range(self.edge_size):
                 affected_tiles.append((y - floor(self.edge_size / 2), x - floor(self.edge_size / 2)))
         return affected_tiles
 
@@ -28,12 +28,12 @@ class Square(SpellShapes):
 class Rectangle(SpellShapes):
     def __init__(self, size):
         super()
-        self.distance = size
-        self.width = ceil(size/2)
+        self.distance = 6
+        self.width = 3
 
     def get_relative_affected_tiles(self):
         affected_tiles = []
-        for y in range(self.width):
-            for x in range(self.distance):
-                affected_tiles.append((y - floor(self.width / 2), x - floor(self.distance / 2)))
+        for x in range(self.width):
+            for y in range(self.distance):
+                affected_tiles.append((y - floor(self.distance / 2), x - floor(self.width / 2)))
         return affected_tiles

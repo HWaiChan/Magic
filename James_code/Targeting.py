@@ -1,6 +1,7 @@
 class Target:
     def __init__(self, starting_position):
         self.starting_position = starting_position
+        self.orientation = None
         self.base_cost = None
         self.level = None
 

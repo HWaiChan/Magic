@@ -38,6 +38,7 @@ class SpellDecoder:
             if key in spell_components:
                 targeting_index = spell_components.index(key)
                 target = self.targeting_dict[spell_components[targeting_index]](position)
+                target.orientation = 0 # TODO: When is this stored? :/
 
         return Spell(effect, shape, target)
 
