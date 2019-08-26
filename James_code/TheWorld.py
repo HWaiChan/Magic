@@ -4,7 +4,7 @@ import copy
 from SpellDecoder import *
 from math import pi, cos, sin
 import numpy as np
-
+from PhysicalEffects import *
 
 class Singleton(type):
     _instances = {}
@@ -62,6 +62,9 @@ class TheWorld(metaclass=Singleton):
         for prop, coord in props_that_want_to_move:
             # TODO ROTATION SHIT NEED TO GO HERE K
             self.tiles[coord[1] - prop.velocity][coord[0]].add_prop(prop)
+            for relative_distance in range(1, prop.velocity + 1):
+                self.tiles[coord[1] - relative_distance][coord[0]].add_actions(PhysicalEffectPropDamage(prop.velocity*10))
+
 
         for i in self.tiles:
             for j in i:
