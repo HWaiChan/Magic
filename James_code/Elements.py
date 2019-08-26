@@ -1,5 +1,5 @@
 class Elements:
-    def __init__(self, velocity):
+    def __init__(self, velocity=0):
         self.velocity = velocity
 
     def interact_on(self, state):
@@ -10,7 +10,7 @@ class Elements:
 
 
 class Fire(Elements):
-    def __init__(self, temperature, velocity):
+    def __init__(self, temperature, velocity=0):
         Elements.__init__(self, velocity)
         self.temperature = temperature
         self.remaining_duration = 2
@@ -32,7 +32,7 @@ class Fire(Elements):
 
 
 class Water(Elements):
-    def __init__(self, temperature, velocity):
+    def __init__(self, temperature, velocity=0):
         Elements.__init__(self, velocity)
         self.temperature = temperature
 
@@ -62,7 +62,7 @@ class Water(Elements):
 
 
 class Ice(Water):
-    def __init__(self, temperature, velocity):
+    def __init__(self, temperature, velocity=0):
         Water.__init__(self, temperature, velocity)
 
     def interact_on(self, state):
@@ -86,7 +86,7 @@ class Ice(Water):
 
 
 class Steam(Water):
-    def __init__(self, temperature, velocity):
+    def __init__(self, temperature, velocity=0):
         Water.__init__(self, temperature, velocity)
 
     def check_status(self, state):
@@ -99,7 +99,7 @@ class Steam(Water):
 
 
 class Lightning(Elements):
-    def __init__(self, power, velocity):
+    def __init__(self, power, velocity=0):
         Elements.__init__(self, velocity)
         self.power = power
         self.remaining_duration = 2

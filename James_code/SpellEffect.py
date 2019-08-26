@@ -18,9 +18,9 @@ class SpellEffect:
     def act(self, elements, props):
         if self.action_type == 'Create':
             try:
-                elements.append(self.create_element(self.velocity))
+                elements.append(self.create_element())
             except:
-                props.append(self.create_prop(self.velocity))
+                props.append(self.create_prop())
         return elements, props
 
 
@@ -31,9 +31,9 @@ class SpellEffectFire(SpellEffect):
         self.setting_type = 'Temperature'
         self.base_cost = 1
 
-    def create_element(self, velocity):
+    def create_element(self):
         temperature = 400 + (100 * self.level)
-        return Fire(temperature, velocity)
+        return Fire(temperature)
 
 
 class SpellEffectCold(SpellEffect):
@@ -43,9 +43,9 @@ class SpellEffectCold(SpellEffect):
         self.setting_type = 'Temperature'
         self.base_cost = 1
 
-    def create_element(self, velocity):
+    def create_element(self):
         temperature = 0 - (25 * self.level)
-        return Water(temperature, velocity)
+        return Water(temperature)
 
 
 class SpellEffectLightning(SpellEffect):
@@ -55,9 +55,9 @@ class SpellEffectLightning(SpellEffect):
         self.setting_type = 'Power'
         self.base_cost = 1
 
-    def create_element(self, velocity):
+    def create_element(self):
         power = (100 * self.level)
-        return Lightning(power, velocity)
+        return Lightning(power)
 
 
 class SpellEffectEarth(SpellEffect):
@@ -67,9 +67,9 @@ class SpellEffectEarth(SpellEffect):
         self.setting_type = 'Weight'
         self.base_cost = 1
 
-    def create_prop(self, velocity):
+    def create_prop(self):
         health = self.level * 50
-        return Boulder(velocity, health)
+        return Boulder(health)
 
 
 class SpellEffectTime(SpellEffect):

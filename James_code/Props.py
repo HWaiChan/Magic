@@ -1,5 +1,5 @@
 class Props:
-    def __init__(self, velocity, health=1):
+    def __init__(self, health=1, velocity=0):
         self.velocity = velocity
         self.health = health
         self.mana = 1
@@ -7,8 +7,7 @@ class Props:
 
 class Wizard(Props):
     def __init__(self, velocity=0):
-        Props.__init__(self, velocity, 100)
-        self.velocity = velocity
+        Props.__init__(self, 100, velocity)
         self.mana = 100
         self.said = []
 
@@ -22,5 +21,5 @@ class Wizard(Props):
 
 
 class Boulder(Props):
-    def __init__(self, velocity, health):
-        Props.__init__(self, velocity, health)
+    def __init__(self,health, velocity = 0):
+        Props.__init__(self,health, velocity)
