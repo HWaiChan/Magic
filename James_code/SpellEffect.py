@@ -80,7 +80,8 @@ class SpellEffectEarth(SpellEffect):
     def destroy_props(self, props):
         for prop in props:
             if isinstance(prop, Boulder):
-                props.remove(prop)
+                if self.level * 50 >= prop.health:
+                    props.remove(prop)
         return props
 
 class SpellEffectTime(SpellEffect):

@@ -11,7 +11,7 @@ class SpellDecoder:
                                    'Cold': lambda string_num, action_string: SpellEffectCold(int(string_num), action_string),
                                    'Lightning': lambda string_num, action_string: SpellEffectLightning(int(string_num), action_string),
                                    'Earth': lambda string_num, action_string: SpellEffectEarth(int(string_num), action_string)}
-        self.action_list = ['Create', 'Destroy']
+        self.action_list = ['Create', 'Destroy', 'Displace']
         self.shapes_dict = {'Square': lambda string_num: Square(int(string_num)),
                             'Rectangle': lambda string_num: Rectangle(int(string_num))}
         self.targeting_dict = {'Point': lambda position: Point(position),
