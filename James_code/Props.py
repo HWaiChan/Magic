@@ -5,6 +5,9 @@ class Props:
         self.health = health
         self.mana = 1
 
+    def want_to_move(self):
+        return self.velocity > 0
+
 
 class Wizard(Props):
     def __init__(self, orientation, velocity=0):
@@ -22,5 +25,5 @@ class Wizard(Props):
 
 
 class Boulder(Props):
-    def __init__(self, orientation, health, velocity=0):
+    def __init__(self, orientation, health, velocity=1):
         Props.__init__(self, orientation, health, velocity)

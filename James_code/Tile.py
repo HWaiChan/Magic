@@ -48,13 +48,16 @@ class Tile:
     def move_phase(self):
         props_that_want_to_move = []
         for prop in self.props:
-            if prop.velocity > 0:
-                props_that_want_to_move.append(prop)
+            if prop.want_to_move():
+                props_that_want_to_move.append((prop, self.coordinates))
                 self.props.remove(prop)
         return props_that_want_to_move
 
     def add_actions(self, action):
         self.actions.append(action)
+
+    def add_prop(self, prop):
+        self.props.append(prop)
 
     def get_information(self):
         return str(self.coordinates) + " with world effects " + str(len(self.elements))

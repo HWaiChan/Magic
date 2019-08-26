@@ -28,7 +28,7 @@ class Square(SpellShapes):
 class Rectangle(SpellShapes):
     def __init__(self, size):
         super()
-        self.distance = 6
+        self.distance = 3
         self.width = 3
 
     def get_relative_affected_tiles(self):

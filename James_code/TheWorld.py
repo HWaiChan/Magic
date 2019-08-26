@@ -54,6 +54,15 @@ class TheWorld(metaclass=Singleton):
 
     def resolve_tiles(self):
         tile_speech_log = []
+        props_that_want_to_move = []
+        for i in self.tiles:
+            for j in i:
+                props_that_want_to_move = props_that_want_to_move + j.move_phase()
+
+        for prop, coord in props_that_want_to_move:
+            # TODO ROTATION SHIT NEED TO GO HERE K
+            self.tiles[coord[1] - prop.velocity][coord[0]].add_prop(prop)
+
         for i in self.tiles:
             for j in i:
                 tile_speech_log = j.speech_phase()
