@@ -32,6 +32,7 @@ class TheWorld(metaclass=Singleton):
     def add_spell(self, spell):
         """
             edits the world grid of tiles based on world element shape and position
+        :param spell:
         :param world_action such as a Spell
         :return:
         """
