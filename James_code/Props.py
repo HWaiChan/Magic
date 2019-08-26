@@ -25,5 +25,5 @@ class Wizard(Props):
 
 
 class Boulder(Props):
-    def __init__(self, orientation, health, velocity=1):
+    def __init__(self, orientation, health, velocity=0):
         Props.__init__(self, orientation, health, velocity)

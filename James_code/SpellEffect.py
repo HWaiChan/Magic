@@ -27,6 +27,11 @@ class SpellEffect:
                 self.destroy_elements(elements)
             except:
                 self.destroy_props(props)
+        elif self.action_type == 'Displace':
+            try:
+                self.displace_elements(elements)
+            except:
+                self.displace_props(props)
         return elements, props
 
 
@@ -82,6 +87,12 @@ class SpellEffectEarth(SpellEffect):
             if isinstance(prop, Boulder):
                 if self.level * 50 >= prop.health:
                     props.remove(prop)
+        return props
+
+    def displace_props(self, props):
+        for prop in props:
+            if isinstance(prop, Boulder):
+                prop.velocity += 1
         return props
 
 class SpellEffectTime(SpellEffect):
