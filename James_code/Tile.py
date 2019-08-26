@@ -19,10 +19,9 @@ class Tile:
     def speech_phase(self):
         self.speech_log =[]
         for prop in self.props:
-            if isinstance(prop, Wizard):
-                one_person_log = prop.return_speech()
-                for speech in one_person_log:
-                    self.speech_log.append(speech)
+            one_person_log = prop.return_speech()
+            for speech in one_person_log:
+                self.speech_log.append(speech)
         return self.speech_log
 
     def action_phase(self):

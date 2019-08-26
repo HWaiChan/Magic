@@ -8,6 +8,9 @@ class Props:
     def want_to_move(self):
         return self.velocity > 0
 
+    def return_speech(self):
+        return []
+
 
 class Wizard(Props):
     def __init__(self, orientation, velocity=0):
