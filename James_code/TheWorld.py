@@ -41,14 +41,10 @@ class TheWorld(metaclass=Singleton):
 
         # TODO: abstract away the rotational matrix logic
         rotational_matrix = [[cos(rotation_angle), -sin(rotation_angle)], [sin(rotation_angle), cos(rotation_angle)]]
-        print(rotational_matrix)
-        finished_coords = []
         for relative_coords in spell.shape.get_relative_affected_tiles():
             [rotated_y, rotated_x] = np.matmul(relative_coords, rotational_matrix)
             shifted_y = world_position[1] + rotated_y
             shifted_x = world_position[0] + rotated_x
-
-            finished_coords.append([shifted_y,shifted_x])
             spell_effect_copy = copy.copy(spell.spell_effect)
             self.tiles[int(round(shifted_y))][int(round(shifted_x))].add_actions(spell_effect_copy)
 
