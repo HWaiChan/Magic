@@ -60,3 +60,6 @@ class Tile:
 
     def get_information(self):
         return str(self.coordinates) + " with world effects " + str(len(self.elements))
+
+    def immediate_action(self, action):
+        self.elements, self.props = action.act(self.elements, self.props)
