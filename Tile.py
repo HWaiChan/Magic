@@ -9,7 +9,7 @@ class Tile:
         self.elements = []
         self.props = []
         self.speech_log = []
-        self.state = {"Temperature": 24, "Time": 1, "Gravity": 9.81, "Fuel": False, "Conductor": False}
+        self.state = {"Temperature": 24, "Time": 1, "Gravity": 9.81, "Voltage": 0, "Fuel": False, "Conductor": False}
 
     def resolve_tile(self):
         self.action_phase()
@@ -32,6 +32,7 @@ class Tile:
     def elements_phase(self):
         self.state['Fuel'] = False
         self.state['Conductor'] = False
+        self.state['Voltage'] = 0
 
         for element in self.elements:
             self.state = element.interact_on(self.state)
@@ -42,7 +43,7 @@ class Tile:
 
     def props_phase(self):
         for prop in self.props:
-            # TODO Props take damage from Tile State
+            prop.interact_from(self.state)
             break
 
     def move_phase(self):

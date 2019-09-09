@@ -6,7 +6,6 @@ the_world = TheWorld()
 Carl = Wizard('N', 0)
 Bob = Wizard('N', 0)
 Jim = Wizard('N', 0)
-print("Jim HP: " + str(Jim.health))
 the_world.tiles[5][5].props.append(Carl)
 the_world.tiles[4][7].props.append(Jim)
 the_world.tiles[5][7].props.append(Bob)
@@ -19,7 +18,9 @@ the_world.resolve_tiles()
 the_world.print_elements_grid()
 the_world.print_props_grid()
 print("Jim HP: " + str(Jim.health))
-print(the_world.get_total_elements())
+print("Carl HP: " + str(Carl.health))
+print("Bob HP: " + str(Bob.health))
+
 
 
 

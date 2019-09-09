@@ -95,6 +95,7 @@ class SpellEffectEarth(SpellEffect):
                 prop.velocity += 1
         return props
 
+
 class SpellEffectTime(SpellEffect):
     def __init__(self, level, action_type, orientation='N'):
         SpellEffect.__init__(self, level, action_type, orientation)

@@ -11,6 +11,14 @@ class Props:
     def return_speech(self):
         return []
 
+    def interact_from(self, state):
+        if state["Temperature"] > 50:
+            self.health = self.health - ((state["Temperature"] - 50) / 50)
+        elif state["Temperature"] < 0:
+            self.health = self.health + (state["Temperature"] / 25)
+        if state["Voltage"] > 0:
+            self.health = self.health - (state["Voltage"] / 50)
+
 
 class Wizard(Props):
     def __init__(self, orientation, velocity=0):

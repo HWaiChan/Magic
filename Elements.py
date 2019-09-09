@@ -105,6 +105,7 @@ class Lightning(Elements):
         self.remaining_duration = 2
 
     def interact_on(self, state):
+        state["Voltage"] = self.power * 10
         return state
 
     def interact_from(self, state):
