@@ -17,6 +17,7 @@ class SpellDecoder:
         self.targeting_dict = {'Point': lambda position: Point(position),
                                'Self': lambda position: Self(position)}
 
+    # Todo Decode orientation / add direct targeting?
     def decode_spell(self, position):
         spell_components = self.incantation.split()
         action = None

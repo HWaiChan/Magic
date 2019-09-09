@@ -26,6 +26,7 @@ class Wizard(Props):
         self.said = []
         return speech
 
+    # Todo Wizaards need momvment commands
 
 class Boulder(Props):
     def __init__(self, orientation, health, velocity=0):

@@ -42,6 +42,7 @@ class Tile:
 
     def props_phase(self):
         for prop in self.props:
+            # TODO Props take damage from Tile State
             break
 
     def move_phase(self):
