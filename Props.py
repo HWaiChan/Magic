@@ -1,5 +1,6 @@
 from math import pi, cos, sin
 
+
 class Props:
     def __init__(self, orientation=0, health=1, velocity=(0, 0)):
         self.velocity = velocity
@@ -15,11 +16,11 @@ class Props:
 
     def interact_from(self, state):
         if state["Temperature"] > 50:
-            self.health = self.health - ((state["Temperature"] - 50) / 50)
+            self.health = int(self.health - ((state["Temperature"] - 50) / 50))
         elif state["Temperature"] < 0:
-            self.health = self.health + (state["Temperature"] / 25)
+            self.health = int(self.health + (state["Temperature"] / 25))
         if state["Voltage"] > 0:
-            self.health = self.health - (state["Voltage"] / 50)
+            self.health = int(self.health - (state["Voltage"] / 50))
 
 
 class Wizard(Props):
@@ -27,6 +28,7 @@ class Wizard(Props):
         Props.__init__(self, orientation, 100, velocity)
         self.mana = 100
         self.said = []
+        self.controlled_movement = (0, 0)
 
     def shout(self, string):
         self.said.append(string)
@@ -36,7 +38,9 @@ class Wizard(Props):
         self.said = []
         return speech
 
-    # Todo Wizaards need momvment commands
+    def movement(self, velocity):
+        self.controlled_movement = velocity
+        self.velocity = (self.velocity[0] + self.controlled_movement[0], self.velocity[1] + self.controlled_movement[1])
 
 
 class Boulder(Props):
