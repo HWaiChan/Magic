@@ -6,6 +6,7 @@ class SpellShapes(ABC):
     def __init__(self):
         self.base_cost = None
         self.level = None
+        self.orientation = 0
 
     @abstractmethod
     def get_relative_affected_tiles(self):
@@ -14,7 +15,7 @@ class SpellShapes(ABC):
 
 class Square(SpellShapes):
     def __init__(self, size):
-        super()
+        SpellShapes.__init__(self)
         self.edge_size = size
 
     def get_relative_affected_tiles(self):
@@ -27,7 +28,7 @@ class Square(SpellShapes):
 
 class Rectangle(SpellShapes):
     def __init__(self, size):
-        super()
+        SpellShapes.__init__(self)
         self.distance = 3
         self.width = 3
 
@@ -41,7 +42,7 @@ class Rectangle(SpellShapes):
 
 class Line(SpellShapes):
     def __init__(self, distance):
-        super()
+        SpellShapes.__init__(self)
         self.distance = distance
         self.width = 1
 

@@ -1,6 +1,6 @@
 class Target:
-    def __init__(self, starting_position):
-        self.starting_position = starting_position
+    def __init__(self, position):
+        self.position = position
         self.orientation = None
         self.base_cost = None
         self.level = None
@@ -8,25 +8,15 @@ class Target:
     def cost(self):
         return self.base_cost * self.level
 
-    def properties(self):
-        return
-
 
 class Self(Target):
-    def __init__(self, starting_position):
-        Target.__init__(self, starting_position)
+    def __init__(self, position):
+        Target.__init__(self, position)
         self.base_cost = 1
-
-    def properties(self):
-        velocity = 0
-        return self.starting_position, velocity
 
 
 class Point(Target):
-    def __init__(self, starting_position):
+    def __init__(self, starting_position, coordinates=(0, 0)):
         Target.__init__(self, starting_position)
         self.base_cost = 1
-
-    def properties(self):
-        velocity = self.level
-        return self.starting_position, velocity
+        self.position = (starting_position[0] - int(coordinates[0]), starting_position[1] - int(coordinates[1]))

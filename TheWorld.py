@@ -36,8 +36,8 @@ class TheWorld(metaclass=Singleton):
         :param world_action such as a Spell
         :return:
         """
-        world_position = spell.target.starting_position
-        rotation_angle = spell.target.orientation * pi / 180
+        world_position = spell.target.position
+        rotation_angle = spell.shape.orientation * pi / 180
 
         # TODO: abstract away the rotational matrix logic
         rotational_matrix = [[cos(rotation_angle), -sin(rotation_angle)], [sin(rotation_angle), cos(rotation_angle)]]

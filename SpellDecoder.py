@@ -14,7 +14,7 @@ class SpellDecoder:
         self.action_list = ['Create', 'Destroy', 'Displace']
         self.shapes_dict = {'Square': lambda string_num: Square(int(string_num)),
                             'Rectangle': lambda string_num: Rectangle(int(string_num))}
-        self.targeting_dict = {'Point': lambda position: Point(position),
+        self.targeting_dict = {'Point': lambda position, **kw: Point(position, **kw),
                                'Self': lambda position: Self(position)}
 
     # Todo Decode orientation / add direct targeting?
@@ -44,8 +44,10 @@ class SpellDecoder:
         for key in self.targeting_dict.keys():
             if key in spell_components:
                 targeting_index = spell_components.index(key)
-                target = self.targeting_dict[spell_components[targeting_index]](position)
-                target.orientation = 0 # TODO: When is this stored? :/
+                if key == "Point":
+                    target = self.targeting_dict[spell_components[targeting_index]](position, coordinates=(spell_components[targeting_index + 1], spell_components[targeting_index + 2]))
+                else:
+                    target = self.targeting_dict[spell_components[targeting_index]](position)
 
         return Spell(effect, shape, target)
 
