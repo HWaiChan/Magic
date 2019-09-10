@@ -3,7 +3,7 @@ from Props import *
 from math import pi, cos, sin
 
 class SpellEffect:
-    def __init__(self, level, action_type, orientation='N'):
+    def __init__(self, level, action_type, orientation=0):
         self.type = None
         self.setting_type = None
         self.action_type = action_type
@@ -36,7 +36,7 @@ class SpellEffect:
 
 
 class SpellEffectFire(SpellEffect):
-    def __init__(self, level, action_type, orientation='N'):
+    def __init__(self, level, action_type, orientation=0):
         SpellEffect.__init__(self, level, action_type, orientation)
         self.type = 'Fire'
         self.setting_type = 'Temperature'
@@ -48,7 +48,7 @@ class SpellEffectFire(SpellEffect):
 
 
 class SpellEffectCold(SpellEffect):
-    def __init__(self, level, action_type, orientation='N'):
+    def __init__(self, level, action_type, orientation=0):
         SpellEffect.__init__(self, level, action_type, orientation)
         self.type = 'Cold'
         self.setting_type = 'Temperature'
@@ -60,7 +60,7 @@ class SpellEffectCold(SpellEffect):
 
 
 class SpellEffectLightning(SpellEffect):
-    def __init__(self, level, action_type, orientation='N'):
+    def __init__(self, level, action_type, orientation=0):
         SpellEffect.__init__(self, level, action_type, orientation)
         self.type = 'Lightning'
         self.setting_type = 'Power'
@@ -100,7 +100,7 @@ class SpellEffectEarth(SpellEffect):
 
 
 class SpellEffectTime(SpellEffect):
-    def __init__(self, level, action_type, orientation='N'):
+    def __init__(self, level, action_type, orientation=0):
         SpellEffect.__init__(self, level, action_type, orientation)
         self.type = 'time'
         self.setting_type = 'Rate'

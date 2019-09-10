@@ -1,7 +1,7 @@
 from math import pi, cos, sin
 
 class Props:
-    def __init__(self, orientation='N', health=1, velocity=(0, 0)):
+    def __init__(self, orientation=0, health=1, velocity=(0, 0)):
         self.velocity = velocity
         self.orientation = orientation
         self.health = health
