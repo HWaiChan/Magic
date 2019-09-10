@@ -37,3 +37,17 @@ class Rectangle(SpellShapes):
             for y in range(self.distance):
                 affected_tiles.append((y - floor(self.distance / 2), x - floor(self.width / 2)))
         return affected_tiles
+
+
+class Line(SpellShapes):
+    def __init__(self, distance):
+        super()
+        self.distance = distance
+        self.width = 1
+
+    def get_relative_affected_tiles(self):
+        affected_tiles = []
+        for x in range(self.width):
+            for y in range(self.distance):
+                affected_tiles.append((y + 1, x))
+        return affected_tiles

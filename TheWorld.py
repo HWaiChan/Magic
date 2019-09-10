@@ -5,7 +5,7 @@ from SpellDecoder import *
 from math import pi, cos, sin
 import numpy as np
 from PhysicalEffects import *
-
+from SpellShapes import *
 class Singleton(type):
     _instances = {}
 
@@ -74,10 +74,17 @@ class TheWorld(metaclass=Singleton):
             rotation_angle = np.arctan(prop.velocity[0]/prop.velocity[1])
             rotational_matrix = [[cos(rotation_angle), -sin(rotation_angle)],
                                  [sin(rotation_angle), cos(rotation_angle)]]
-            for relative_distance in range(1, int(np.hypot(prop.velocity[0], prop.velocity[1])) + 1):
-                new_coords = [0, relative_distance]
-                new_coords = np.matmul(new_coords, rotational_matrix)
-                self.tiles[coord[1] - int(new_coords[1])][coord[0] - int(new_coords[0])].immediate_action(PhysicalEffectPropDamage(int(np.hypot(prop.velocity[0], prop.velocity[1]))*10))
+            line = Line(int(np.hypot(prop.velocity[0], prop.velocity[1])))
+            old_shifted_y = 0
+            old_shifted_x = 0
+            for relative_coords in line.get_relative_affected_tiles():
+                [rotated_y, rotated_x] = np.matmul(relative_coords, rotational_matrix)
+                shifted_y = int(round(coord[1] - rotated_y))
+                shifted_x = int(round(coord[0] + rotated_x))
+                if old_shifted_y != shifted_y and shifted_x != old_shifted_x:
+                    old_shifted_x = shifted_x
+                    old_shifted_y = shifted_y
+                    self.tiles[shifted_y][shifted_x].immediate_action(PhysicalEffectPropDamage(int(np.hypot(prop.velocity[0], prop.velocity[1]))*10))
 
     def print_elements_grid(self):
         pprint([[len(j.elements) for j in i] for i in self.tiles])
