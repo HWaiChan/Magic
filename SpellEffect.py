@@ -1,6 +1,6 @@
 from Elements import *
 from Props import *
-
+from math import pi, cos, sin
 
 class SpellEffect:
     def __init__(self, level, action_type, orientation='N'):
@@ -72,8 +72,8 @@ class SpellEffectLightning(SpellEffect):
 
 
 class SpellEffectEarth(SpellEffect):
-    def __init__(self, level, action_type, orientation='N'):
-        SpellEffect.__init__(self, level, action_type, orientation)
+    def __init__(self, level, action_type, orientation=0):
+        SpellEffect.__init__(self, level, action_type, float(orientation))
         self.type = 'Earth'
         self.setting_type = 'Weight'
         self.base_cost = 1
@@ -92,7 +92,10 @@ class SpellEffectEarth(SpellEffect):
     def displace_props(self, props):
         for prop in props:
             if isinstance(prop, Boulder):
-                prop.velocity += 1
+                rotation_angle = self.orientation * pi / 180
+                prop.velocity = (prop.velocity[0] + self.level * sin(rotation_angle),
+                                 prop.velocity[1] + self.level * cos(rotation_angle))
+
         return props
 
 

@@ -70,10 +70,14 @@ class TheWorld(metaclass=Singleton):
                 props_that_want_to_move = props_that_want_to_move + j.move_phase()
 
         for prop, coord in props_that_want_to_move:
-            # TODO ROTATION SHIT NEED TO GO HERE K
-            self.tiles[coord[1] - prop.velocity][coord[0]].add_prop(prop)
-            for relative_distance in range(1, prop.velocity + 1):
-                self.tiles[coord[1] - relative_distance][coord[0]].immediate_action(PhysicalEffectPropDamage(prop.velocity*10))
+            self.tiles[coord[1] - int(prop.velocity[1])][coord[0] - int(prop.velocity[0])].add_prop(prop)
+            rotation_angle = np.arctan(prop.velocity[0]/prop.velocity[1])
+            rotational_matrix = [[cos(rotation_angle), -sin(rotation_angle)],
+                                 [sin(rotation_angle), cos(rotation_angle)]]
+            for relative_distance in range(1, int(np.hypot(prop.velocity[0], prop.velocity[1])) + 1):
+                new_coords = [0, relative_distance]
+                new_coords = np.matmul(new_coords, rotational_matrix)
+                self.tiles[coord[1] - int(new_coords[1])][coord[0] - int(new_coords[0])].immediate_action(PhysicalEffectPropDamage(int(np.hypot(prop.velocity[0], prop.velocity[1]))*10))
 
     def print_elements_grid(self):
         pprint([[len(j.elements) for j in i] for i in self.tiles])
