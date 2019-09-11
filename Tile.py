@@ -58,6 +58,7 @@ class Tile:
         self.actions.append(action)
 
     def add_prop(self, prop):
+        # Todo remove controlled movement
         self.props.append(prop)
 
     def get_information(self):

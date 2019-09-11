@@ -22,6 +22,11 @@ class Props:
         if state["Voltage"] > 0:
             self.health = int(self.health - (state["Voltage"] / 50))
 
+        self.internal_interact()
+
+    def internal_interact(self):
+        pass
+
 
 class Wizard(Props):
     def __init__(self, orientation, velocity=(0, 0)):
@@ -29,6 +34,7 @@ class Wizard(Props):
         self.mana = 100
         self.said = []
         self.controlled_movement = (0, 0)
+        self.added_movement = (0, 0)
 
     def shout(self, string):
         self.said.append(string)
@@ -40,8 +46,12 @@ class Wizard(Props):
 
     def movement(self, velocity):
         self.controlled_movement = velocity
-        self.velocity = (self.velocity[0] + self.controlled_movement[0], self.velocity[1] + self.controlled_movement[1])
 
+    def internal_interact(self):
+        self.velocity = (self.velocity[0] - self.added_movement[0], self.velocity[1] - self.added_movement[1])
+        self.velocity = (self.velocity[0] + self.controlled_movement[0], self.velocity[1] + self.controlled_movement[1])
+        self.added_movement = self.controlled_movement
+        self.controlled_movement = (0, 0)
 
 class Boulder(Props):
     def __init__(self, orientation, health, velocity=(0, 0)):
