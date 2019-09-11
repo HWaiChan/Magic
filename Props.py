@@ -37,7 +37,11 @@ class Wizard(Props):
         self.added_movement = (0, 0)
 
     def shout(self, string):
-        self.said.append(string)
+        components = string.split()
+        if "Mana" in components:
+            if self.mana > int(components[components.index("Mana") + 1]):
+                self.mana = self.mana - int(components[components.index("Mana") + 1])
+                self.said.append(string)
 
     def return_speech(self):
         speech = self.said

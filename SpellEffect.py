@@ -14,7 +14,7 @@ class SpellEffect:
         self.orientation = orientation
 
     def cost(self):
-        return
+        return int(self.base_cost) + int(self.level)
     
     def act(self, elements, props):
         if self.action_type == 'Create':

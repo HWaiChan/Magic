@@ -58,7 +58,8 @@ class TheWorld(metaclass=Singleton):
                     if not speech is None:
                         spelldecoder = SpellDecoder(speech)
                         spell = spelldecoder.decode_spell(j.coordinates)
-                        self.add_spell(spell)
+                        if spell.castable():
+                            self.add_spell(spell)
 
         for i in self.tiles:
             for j in i:

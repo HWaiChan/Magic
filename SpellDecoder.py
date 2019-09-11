@@ -49,5 +49,6 @@ class SpellDecoder:
                 else:
                     target = self.targeting_dict[spell_components[targeting_index]](position)
 
-        return Spell(effect, shape, target)
+        mana = spell_components[spell_components.index("Mana") + 1]
+        return Spell(effect, shape, target, mana)
 
