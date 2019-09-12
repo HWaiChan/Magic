@@ -98,6 +98,16 @@ class SpellEffectEarth(SpellEffect):
 
         return props
 
+class SpellEffectGravity(SpellEffect):
+    def __init__(self, level, action_type, orientation=0):
+        SpellEffect.__init__(self, level, action_type, float(orientation))
+        self.type = 'Earth'
+        self.setting_type = 'Weight'
+        self.base_cost = 1
+
+    def create_element(self):
+        power = (self.level, 0)
+        return Gravity(power)
 
 class SpellEffectTime(SpellEffect):
     def __init__(self, level, action_type, orientation=0):

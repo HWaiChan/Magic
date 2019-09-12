@@ -10,7 +10,8 @@ class SpellDecoder:
         self.spell_effects_dict = {'Fire': lambda string_num, action_string: SpellEffectFire(int(string_num), action_string),
                                    'Cold': lambda string_num, action_string: SpellEffectCold(int(string_num), action_string),
                                    'Lightning': lambda string_num, action_string: SpellEffectLightning(int(string_num), action_string),
-                                   'Earth': lambda string_num, action_string, **kw: SpellEffectEarth(int(string_num), action_string, **kw)}
+                                   'Earth': lambda string_num, action_string, **kw: SpellEffectEarth(int(string_num), action_string, **kw),
+                                   'Gravity': lambda string_num, action_string, **kw: SpellEffectGravity(int(string_num), action_string, **kw)}
         self.action_list = ['Create', 'Destroy', 'Displace']
         self.shapes_dict = {'Square': lambda string_num: Square(int(string_num)),
                             'Rectangle': lambda string_num: Rectangle(int(string_num))}

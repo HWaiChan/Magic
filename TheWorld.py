@@ -72,7 +72,12 @@ class TheWorld(metaclass=Singleton):
 
         for prop, coord in props_that_want_to_move:
             self.tiles[coord[1] - int(prop.velocity[1])][coord[0] - int(prop.velocity[0])].add_prop(prop)
-            rotation_angle = np.arctan(prop.velocity[0]/prop.velocity[1])
+            if prop.velocity[0] == 0:
+                rotation_angle = 90
+            elif prop.velocity[1] == 0:
+                rotation_angle = 0
+            else:
+                rotation_angle = np.arctan(prop.velocity[0]/prop.velocity[1])
             rotational_matrix = [[cos(rotation_angle), -sin(rotation_angle)],
                                  [sin(rotation_angle), cos(rotation_angle)]]
             line = Line(int(np.hypot(prop.velocity[0], prop.velocity[1])))
