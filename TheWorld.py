@@ -6,6 +6,8 @@ from math import pi, cos, sin
 import numpy as np
 from PhysicalEffects import *
 from SpellShapes import *
+
+
 class Singleton(type):
     _instances = {}
 
@@ -48,9 +50,10 @@ class TheWorld(metaclass=Singleton):
             spell_effect_copy = copy.copy(spell.spell_effect)
             self.tiles[int(round(shifted_y))][int(round(shifted_x))].add_actions(spell_effect_copy)
 
-    def resolve_tiles(self):
-        tile_speech_log = []
+    def add_prop(self, prop, location):
+        self.tiles[location[0]][location[1]].props.append(prop)
 
+    def resolve_tiles(self):
         for i in self.tiles:
             for j in i:
                 tile_speech_log = j.speech_phase()
@@ -77,7 +80,7 @@ class TheWorld(metaclass=Singleton):
             elif prop.velocity[1] == 0:
                 rotation_angle = 0
             else:
-                rotation_angle = np.arctan(prop.velocity[0]/prop.velocity[1])
+                rotation_angle = np.arctan(prop.velocity[0] / prop.velocity[1])
             rotational_matrix = [[cos(rotation_angle), -sin(rotation_angle)],
                                  [sin(rotation_angle), cos(rotation_angle)]]
             line = Line(int(np.hypot(prop.velocity[0], prop.velocity[1])))
@@ -90,7 +93,8 @@ class TheWorld(metaclass=Singleton):
                 if old_shifted_y != shifted_y and shifted_x != old_shifted_x:
                     old_shifted_x = shifted_x
                     old_shifted_y = shifted_y
-                    self.tiles[shifted_y][shifted_x].immediate_action(PhysicalEffectPropDamage(int(np.hypot(prop.velocity[0], prop.velocity[1]))*10))
+                    self.tiles[shifted_y][shifted_x].immediate_action(
+                        PhysicalEffectPropDamage(int(np.hypot(prop.velocity[0], prop.velocity[1])) * 10))
 
     def print_elements_grid(self):
         pprint([[len(j.elements) for j in i] for i in self.tiles])
