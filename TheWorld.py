@@ -24,12 +24,7 @@ class TheWorld(metaclass=Singleton):
 
     def __init__(self):
         print("Starting The world.....")
-        self.tiles = [[]]
-        self.prepare_tiles()
-
-    def prepare_tiles(self):
-        self.tiles = [[Tile([x, y]) for x in range(WORLD_SIZE)] for y in range(WORLD_SIZE)]
-        return
+        self.tiles = [[Tile([y, x]) for x in range(WORLD_SIZE)] for y in range(WORLD_SIZE)]
 
     def add_spell(self, spell):
         """
@@ -42,6 +37,8 @@ class TheWorld(metaclass=Singleton):
         rotation_angle = spell.shape.orientation * pi / 180
 
         # TODO: abstract away the rotational matrix logic
+        # generates a list of true co ordinates for world to distribute spell effects
+
         rotational_matrix = [[cos(rotation_angle), -sin(rotation_angle)], [sin(rotation_angle), cos(rotation_angle)]]
         for relative_coords in spell.shape.get_relative_affected_tiles():
             [rotated_y, rotated_x] = np.matmul(relative_coords, rotational_matrix)
@@ -59,8 +56,7 @@ class TheWorld(metaclass=Singleton):
                 tile_speech_log = j.speech_phase()
                 for speech in tile_speech_log:
                     if not speech is None:
-                        spelldecoder = SpellDecoder(speech)
-                        spell = spelldecoder.decode_spell(j.coordinates)
+                        spell = SpellDecoder(speech).decode_spell(j.coordinates)
                         if spell.castable():
                             self.add_spell(spell)
 
