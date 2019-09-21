@@ -29,27 +29,16 @@ class TheWorld(metaclass=Singleton):
 
     def add_spell(self, spell):
         """
-            edits the world grid of tiles based on world element shape and position
+            Divvys up the spell_effects depending on the spell's shape, orientation and position.
         :param spell:
         :param world_action such as a Spell
         :return:
         """
-        world_position = spell.target.position
-        rotation_angle = spell.shape.orientation * pi / 180
-
-        # TODO: abstract away the rotational matrix logic
-        # generates a list of true co ordinates for world to distribute spell effects
-
-        rotational_matrix = [[cos(rotation_angle), -sin(rotation_angle)], [sin(rotation_angle), cos(rotation_angle)]]
-        for relative_coords in spell.shape.get_relative_affected_tiles():
-            [rotated_y, rotated_x] = np.matmul(relative_coords, rotational_matrix)
-            shifted_y = world_position[1] + rotated_y
-            shifted_x = world_position[0] + rotated_x
+        true_coords = WorldMaths.get_true_coordinates(spell.target.position, spell.shape.orientation,
+                                                        spell.shape.get_relative_affected_tiles())
+        for true_c in true_coords:
             spell_effect_copy = copy.copy(spell.spell_effect)
-            self.tiles[int(round(shifted_y))][int(round(shifted_x))].add_actions(spell_effect_copy)
-    #    for true_coords in WorldMaths().get_true_coordinates(world_position, rotation_angle, spell.shape.get_relative_affected_tiles()):
-    #        spell_effect_copy = copy.copy(spell.spell_effect)
-    #        self.tiles[int(round(true_coords))][int(round(shifted_x))].add_actions(spell_effect_copy)
+            self.tiles[int(round(true_c[0]))][int(round(true_c[1]))].add_actions(spell_effect_copy)
 
     def add_prop(self, prop, location):
         self.tiles[location[0]][location[1]].props.append(prop)
