@@ -6,6 +6,7 @@ from math import pi, cos, sin
 import numpy as np
 from PhysicalEffects import *
 from SpellShapes import *
+from WorldMaths import WorldMaths
 
 
 class Singleton(type):
@@ -46,6 +47,9 @@ class TheWorld(metaclass=Singleton):
             shifted_x = world_position[0] + rotated_x
             spell_effect_copy = copy.copy(spell.spell_effect)
             self.tiles[int(round(shifted_y))][int(round(shifted_x))].add_actions(spell_effect_copy)
+    #    for true_coords in WorldMaths().get_true_coordinates(world_position, rotation_angle, spell.shape.get_relative_affected_tiles()):
+    #        spell_effect_copy = copy.copy(spell.spell_effect)
+    #        self.tiles[int(round(true_coords))][int(round(shifted_x))].add_actions(spell_effect_copy)
 
     def add_prop(self, prop, location):
         self.tiles[location[0]][location[1]].props.append(prop)
@@ -93,12 +97,15 @@ class TheWorld(metaclass=Singleton):
                         PhysicalEffectPropDamage(int(np.hypot(prop.velocity[0], prop.velocity[1])) * 10))
 
     def print_elements_grid(self):
+        print("Elements")
         pprint([[len(j.elements) for j in i] for i in self.tiles])
 
     def print_props_grid(self):
+        print("Props")
         pprint([[len(j.props) for j in i] for i in self.tiles])
 
     def print_action_grid(self):
+        print("Action")
         pprint([[len(j.actions) for j in i] for i in self.tiles])
 
     def get_total_elements(self):

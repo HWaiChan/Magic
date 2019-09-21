@@ -1,8 +1,11 @@
 import unittest
+from WorldMaths import WorldMaths
 
 
-class MyTestCase(unittest.TestCase):
-    def test_something(self):
+class RelativeToTrueTiles(unittest.TestCase):
+    def test_line(self):
+        relative_coordinates = []
+        WorldMaths().get_true_coordinates()
         self.assertEqual(True, False)
 
 
