@@ -63,7 +63,7 @@ class TheWorld(metaclass=Singleton):
                 props_that_want_to_move = props_that_want_to_move + j.move_phase()
 
         for prop, coord in props_that_want_to_move:
-            self.tiles[coord[1] - int(prop.velocity[1])][coord[0] - int(prop.velocity[0])].add_prop(prop)
+            self.tiles[coord[0] + int(prop.velocity[0])][coord[1] + int(prop.velocity[1])].add_prop(prop)
             if prop.velocity[0] == 0:
                 rotation_angle = 90
             elif prop.velocity[1] == 0:

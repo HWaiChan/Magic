@@ -93,8 +93,8 @@ class SpellEffectEarth(SpellEffect):
         for prop in props:
             if isinstance(prop, Boulder):
                 rotation_angle = self.orientation * pi / 180
-                prop.velocity = (prop.velocity[0] + self.level * sin(rotation_angle),
-                                 prop.velocity[1] + self.level * cos(rotation_angle))
+                prop.velocity = (prop.velocity[0] + self.level * cos(rotation_angle),
+                                 prop.velocity[1] + self.level * sin(rotation_angle))
 
         return props
 
