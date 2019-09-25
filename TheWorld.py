@@ -18,7 +18,7 @@ class Singleton(type):
         return cls._instances[cls]
 
 
-WORLD_SIZE = 10
+WORLD_SIZE = 12
 
 
 class TheWorld(metaclass=Singleton):
@@ -35,7 +35,7 @@ class TheWorld(metaclass=Singleton):
         :return:
         """
         true_coords = WorldMaths.get_true_coordinates(spell.target.position, spell.shape.orientation,
-                                                        spell.shape.get_relative_affected_tiles())
+                                                      spell.shape.get_relative_affected_tiles())
         for true_c in true_coords:
             spell_effect_copy = copy.copy(spell.spell_effect)
             self.tiles[int(round(true_c[0]))][int(round(true_c[1]))].add_actions(spell_effect_copy)
@@ -48,7 +48,7 @@ class TheWorld(metaclass=Singleton):
             for j in i:
                 tile_speech_log = j.speech_phase()
                 for speech in tile_speech_log:
-                    if not speech is None:
+                    if speech is not None:
                         spell = SpellDecoder(speech).decode_spell(j.coordinates)
                         if spell.castable():
                             self.add_spell(spell)
@@ -69,33 +69,40 @@ class TheWorld(metaclass=Singleton):
             elif prop.velocity[1] == 0:
                 rotation_angle = 0
             else:
-                rotation_angle = np.arctan(prop.velocity[0] / prop.velocity[1])
-            rotational_matrix = [[cos(rotation_angle), -sin(rotation_angle)],
-                                 [sin(rotation_angle), cos(rotation_angle)]]
+                rotation_angle = np.arctan(prop.velocity[0] / prop.velocity[1]) * 180 / pi
             line = Line(int(np.hypot(prop.velocity[0], prop.velocity[1])))
-            old_shifted_y = 0
-            old_shifted_x = 0
-            for relative_coords in line.get_relative_affected_tiles():
-                [rotated_y, rotated_x] = np.matmul(relative_coords, rotational_matrix)
-                shifted_y = int(round(coord[1] - rotated_y))
-                shifted_x = int(round(coord[0] + rotated_x))
-                if old_shifted_y != shifted_y and shifted_x != old_shifted_x:
-                    old_shifted_x = shifted_x
-                    old_shifted_y = shifted_y
-                    self.tiles[shifted_y][shifted_x].immediate_action(
-                        PhysicalEffectPropDamage(int(np.hypot(prop.velocity[0], prop.velocity[1])) * 10))
+            true_coords = WorldMaths.get_true_coordinates(coord, rotation_angle,
+                                                          line.get_relative_affected_tiles())
+            for true_c in true_coords:
+                self.tiles[true_c[0]][true_c[1]].immediate_action(
+                    PhysicalEffectPropDamage(int(np.hypot(prop.velocity[0], prop.velocity[1])) * 10))
 
     def print_elements_grid(self):
+        '''
+        Displays the number of elements present in each tile.
+        Co-ords are increasing y is UP and increasing x is RIGHT.
+        :return:
+        '''
         print("Elements")
-        pprint([[len(j.elements) for j in i] for i in self.tiles])
+        pprint([[len(j.elements) for j in i] for i in reversed(self.tiles)])
 
     def print_props_grid(self):
+        '''
+        Displays the number of props present in each tile.
+        Co-ords are increasing y is UP and increasing x is RIGHT.
+        :return:
+        '''
         print("Props")
-        pprint([[len(j.props) for j in i] for i in self.tiles])
+        pprint([[len(j.props) for j in i] for i in reversed(self.tiles)])
 
     def print_action_grid(self):
+        '''
+        Displays the number of actions present in each tile.
+        Co-ords are increasing y is UP and increasing x is RIGHT.
+        :return:
+        '''
         print("Action")
-        pprint([[len(j.actions) for j in i] for i in self.tiles])
+        pprint([[len(j.actions) for j in i] for i in reversed(self.tiles)])
 
     def get_total_elements(self):
         elements = 0
