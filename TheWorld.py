@@ -63,7 +63,9 @@ class TheWorld(metaclass=Singleton):
                 props_that_want_to_move = props_that_want_to_move + j.move_phase()
 
         for prop, coord in props_that_want_to_move:
-            self.tiles[coord[0] + int(prop.velocity[0])][coord[1] + int(prop.velocity[1])].add_prop(prop)
+            if coord[0] + int(prop.velocity[0]) <= len(self.tiles) - 1 and \
+                    coord[1] + int(prop.velocity[1]) <= len(self.tiles[0]) - 1:
+                self.tiles[coord[0] + int(prop.velocity[0])][coord[1] + int(prop.velocity[1])].add_prop(prop)
             if prop.velocity[0] == 0:
                 rotation_angle = 90
             elif prop.velocity[1] == 0:
@@ -74,8 +76,9 @@ class TheWorld(metaclass=Singleton):
             true_coords = WorldMaths.get_true_coordinates(coord, rotation_angle,
                                                           line.get_relative_affected_tiles())
             for true_c in true_coords:
-                self.tiles[true_c[0]][true_c[1]].immediate_action(
-                    PhysicalEffectPropDamage(int(np.hypot(prop.velocity[0], prop.velocity[1])) * 10))
+                if true_c[0] <= len(self.tiles) - 1 and true_c[1] <= len(self.tiles[0]) - 1:
+                    self.tiles[true_c[0]][true_c[1]].immediate_action(
+                        PhysicalEffectPropDamage(int(np.hypot(prop.velocity[0], prop.velocity[1])) * 10))
 
     def print_elements_grid(self):
         '''
