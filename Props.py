@@ -21,8 +21,8 @@ class Props:
             self.health = int(self.health + (state["Temperature"] / 25))
         if state["Voltage"] > 0:
             self.health = int(self.health - (state["Voltage"] / 50))
-        if state["Gravity"] != (0, 0):
-            self.velocity = (self.velocity[0] + state["Gravity"][0], self.velocity[1] + state["Gravity"][1])
+        if state["Force"] != (0, 0):
+            self.velocity = (self.velocity[0] + state["Force"][0], self.velocity[1] + state["Force"][1])
 
         self.internal_interact()
 

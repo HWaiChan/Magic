@@ -2,3 +2,6 @@
 __pycache__/
 venv
 /tests/.pytest_cache/
+/gnps
+/Untitled.ipynb
+/.ipynb_checkpoints/

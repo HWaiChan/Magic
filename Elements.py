@@ -121,14 +121,14 @@ class Lightning(Elements):
             return None
 
 
-class Gravity(Elements):
+class Force(Elements):
     def __init__(self, power, velocity=(0, 0)):
         Elements.__init__(self, velocity)
         self.power = power
         self.remaining_duration = 2
 
     def interact_on(self, state):
-        state["Gravity"] = self.power
+        state["Force"] = self.power
         return state
 
     def interact_from(self, state):
