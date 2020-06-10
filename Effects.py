@@ -1,6 +1,6 @@
 from math import pi, cos, sin
 
-class Elements:
+class Effects:
     def __init__(self, velocity=(0, 0)):
         self.velocity = velocity
 
@@ -11,31 +11,19 @@ class Elements:
         pass
 
 
-class Fire(Elements):
+class Heat(Effects):
     def __init__(self, temperature, velocity=(0, 0)):
-        Elements.__init__(self, velocity)
+        Effects.__init__(self, velocity)
         self.temperature = temperature
-        self.remaining_duration = 2
 
     def interact_on(self, state):
         state["Temperature"] = (state["Temperature"] + self.temperature) / 2
         return state
 
-    def interact_from(self, state):
-        self.temperature = state["Temperature"]
-        self.remaining_duration -= 1
-        return self.check_status(state)
 
-    def check_status(self, state):
-        if self.temperature > 300 and (state['Fuel'] or self.remaining_duration > 0):
-            return self
-        else:
-            return None
-
-
-class Water(Elements):
+class Water(Effects):
     def __init__(self, temperature, velocity=(0, 0)):
-        Elements.__init__(self, velocity)
+        Effects.__init__(self, velocity)
         self.temperature = temperature
 
     def interact_on(self, state):
@@ -100,9 +88,9 @@ class Steam(Water):
             return Water(self.temperature, self.position, self.velocity, self.shape)
 
 
-class Lightning(Elements):
+class Lightning(Effects):
     def __init__(self, power, velocity=(0, 0)):
-        Elements.__init__(self, velocity)
+        Effects.__init__(self, velocity)
         self.power = power
         self.remaining_duration = 2
 
@@ -121,9 +109,9 @@ class Lightning(Elements):
             return None
 
 
-class Force(Elements):
+class Force(Effects):
     def __init__(self, power, velocity=(0, 0)):
-        Elements.__init__(self, velocity)
+        Effects.__init__(self, velocity)
         self.power = power
         self.remaining_duration = 2
 

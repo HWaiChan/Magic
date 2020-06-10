@@ -1,5 +1,5 @@
 from math import pi, cos, sin
-
+from Effects import *
 
 class Props:
     def __init__(self, orientation=0, health=1, velocity=(0, 0)):
@@ -7,6 +7,7 @@ class Props:
         self.orientation = orientation
         self.health = health
         self.mana = 1
+        self.collidable = True
 
     def want_to_move(self):
         return self.velocity != (0, 0)
@@ -29,6 +30,8 @@ class Props:
     def internal_interact(self):
         pass
 
+    def prop_effects(self, effects):
+        return effects
 
 class Wizard(Props):
     def __init__(self, orientation, velocity=(0, 0)):
@@ -59,6 +62,27 @@ class Wizard(Props):
         self.added_movement = self.controlled_movement
         self.controlled_movement = (0, 0)
 
+
 class Boulder(Props):
     def __init__(self, orientation, health, velocity=(0, 0)):
         Props.__init__(self, orientation, health, velocity)
+
+
+class Fire(Props):
+    def __init__(self,  temperature, orientation=0, health=1, velocity=(0, 0)):
+        Props.__init__(self, orientation, health, velocity)
+        self.collidable = False
+        self.remaining_duration = 2
+        self.temperature = temperature
+
+    def interact_from(self, state):
+
+        self.temperature = state["Temperature"]
+        self.remaining_duration -= 1
+        if self.temperature > 300 and (state['Fuel'] or self.remaining_duration > 0):
+            self.health = 0
+
+    def prop_effects(self, effects):
+        if self.health > 0:
+            effects.add(Heat(self.temperature))
+        return effects
