@@ -3,6 +3,7 @@ from Props import Wizard
 
 the_world = TheWorld()
 # Spawn weird Wizards
+
 Carl = Wizard(0, (0, 0))  # Lightning Steam boy
 Bob = Wizard(0, (0, 0))  # Magicka pro
 Jim = Wizard(0, (0, 0)) # Don't talk to him, he will murder you

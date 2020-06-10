@@ -18,20 +18,14 @@ class SpellEffect:
     
     def act(self, elements, props):
         if self.action_type == 'Create':
-            try:
-                elements.append(self.create_element())
-            except:
-                props.append(self.create_prop())
+            self.create(props, elements)
+
         elif self.action_type == 'Destroy':
-            try:
-                self.destroy_elements(elements)
-            except:
-                self.destroy_props(props)
+            self.destroy(props, elements)
+
         elif self.action_type == 'Displace':
-            try:
-                self.displace_elements(elements)
-            except:
-                self.displace_props(props)
+            self.displace(props, elements)
+
         return elements, props
 
 
@@ -42,9 +36,10 @@ class SpellEffectFire(SpellEffect):
         self.setting_type = 'Temperature'
         self.base_cost = 1
 
-    def create_element(self):
+    def create(self, props, elements):
         temperature = 400 + (100 * self.level)
-        return Fire(temperature)
+        elements.append(Fire(temperature))
+        return props, elements
 
 
 class SpellEffectCold(SpellEffect):
@@ -54,9 +49,10 @@ class SpellEffectCold(SpellEffect):
         self.setting_type = 'Temperature'
         self.base_cost = 1
 
-    def create_element(self):
+    def create(self, props, elements):
         temperature = 0 - (25 * self.level)
-        return Water(temperature)
+        elements.append(Water(temperature))
+        return props, elements
 
 
 class SpellEffectLightning(SpellEffect):
@@ -66,9 +62,10 @@ class SpellEffectLightning(SpellEffect):
         self.setting_type = 'Power'
         self.base_cost = 1
 
-    def create_element(self):
+    def create(self, props, elements):
         power = (100 * self.level)
-        return Lightning(power)
+        elements.append(Lightning(power))
+        return props, elements
 
 
 class SpellEffectEarth(SpellEffect):
@@ -78,25 +75,26 @@ class SpellEffectEarth(SpellEffect):
         self.setting_type = 'Weight'
         self.base_cost = 1
 
-    def create_prop(self):
+    def create(self, props, elements):
         health = self.level * 50
-        return Boulder(self.orientation, health)
+        props.append(Boulder(self.orientation, health))
+        return props, elements
 
-    def destroy_props(self, props):
+    def destroy(self, props, elements):
         for prop in props:
             if isinstance(prop, Boulder):
                 if self.level * 50 >= prop.health:
                     props.remove(prop)
-        return props
+        return props, elements
 
-    def displace_props(self, props):
+    def displace(self, props, elements):
         for prop in props:
             if isinstance(prop, Boulder):
                 rotation_angle = self.orientation * pi / 180
                 prop.velocity = (prop.velocity[0] + self.level * cos(rotation_angle),
                                  prop.velocity[1] + self.level * sin(rotation_angle))
 
-        return props
+        return props, elements
 
 class SpellEffectForce(SpellEffect):
     def __init__(self, level, action_type, orientation=0):
@@ -105,9 +103,10 @@ class SpellEffectForce(SpellEffect):
         self.setting_type = 'Weight'
         self.base_cost = 1
 
-    def create_element(self):
+    def create(self, props, elements):
         power = (self.level, 0)
-        return Force(power)
+        elements.append(Force(power))
+        return props, elements
 
 class SpellEffectTime(SpellEffect):
     def __init__(self, level, action_type, orientation=0):
