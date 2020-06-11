@@ -51,7 +51,7 @@ class SpellEffectCold(SpellEffect):
 
     def create(self, props, elements):
         temperature = 0 - (25 * self.level)
-        elements.append(Water(temperature))
+        props.append(Water(temperature))
         return props, elements
 
 
@@ -64,7 +64,7 @@ class SpellEffectLightning(SpellEffect):
 
     def create(self, props, elements):
         power = (100 * self.level)
-        elements.append(Lightning(power))
+        props.append(Lightning(power))
         return props, elements
 
 
