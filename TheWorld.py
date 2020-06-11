@@ -49,9 +49,10 @@ class TheWorld(metaclass=Singleton):
                 tile_speech_log = j.speech_phase()
                 for speech in tile_speech_log:
                     if speech is not None:
-                        spell = SpellDecoder(speech).decode_spell(j.coordinates)
-                        if spell.castable():
-                            self.add_spell(spell)
+                        spells = SpellDecoder(speech).decode_spell(j.coordinates)
+                        if all(spell.castable() for spell in spells):
+                            for spell in spells:
+                                self.add_spell(spell)
 
         for i in self.tiles:
             for j in i:

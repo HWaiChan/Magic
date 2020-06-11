@@ -74,7 +74,7 @@ class Boulder(Props):
 
 class Fire(Props):
     def __init__(self,  temperature, orientation=0, velocity=(0, 0)):
-        Props.__init__(self, orientation, velocity)
+        Props.__init__(self, orientation, velocity=velocity)
         self.collidable = False
         self.remaining_duration = 2
         self.temperature = temperature
@@ -98,7 +98,7 @@ class Fire(Props):
 
 class Water(Props):
     def __init__(self, temperature, velocity=(0, 0)):
-        Props.__init__(self, velocity)
+        Props.__init__(self, velocity=velocity)
         self.temperature = temperature
         self.collidable = False
 
@@ -157,7 +157,7 @@ class Steam(Water):
 
 class Lightning(Props):
     def __init__(self, power, velocity=(0, 0)):
-        Props.__init__(self, velocity)
+        Props.__init__(self, velocity=velocity)
         self.power = power
         self.remaining_duration = 2
         self.collidable = False
