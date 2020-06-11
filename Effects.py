@@ -1,5 +1,6 @@
 from math import pi, cos, sin
 
+
 class Effects:
     def __init__(self, velocity=(0, 0)):
         self.velocity = velocity
@@ -8,7 +9,7 @@ class Effects:
         return state
 
     def interact_from(self, state):
-        pass
+        return None
 
 
 class Heat(Effects):
@@ -47,6 +48,7 @@ class Conductivity(Effects):
         state['Conductor'] = True
         return state
 
+
 class Electricity(Effects):
     def __init__(self, power, velocity=(0, 0)):
         Effects.__init__(self, velocity)
@@ -61,16 +63,8 @@ class Force(Effects):
     def __init__(self, power, velocity=(0, 0)):
         Effects.__init__(self, velocity)
         self.power = power
-        self.remaining_duration = 2
 
     def interact_on(self, state):
         state["Force"] = self.power
         return state
 
-    def interact_from(self, state):
-        self.remaining_duration -= 1
-        return self.check_status(state)
-
-    def check_status(self, state):
-        if self.remaining_duration > 0:
-            return self

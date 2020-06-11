@@ -1,6 +1,7 @@
 from math import pi, cos, sin
 from Effects import *
 
+
 class Props:
     def __init__(self, orientation=0, health=1, velocity=(0, 0)):
         self.velocity = velocity
@@ -34,6 +35,7 @@ class Props:
 
     def prop_effects(self, effects):
         return effects
+
 
 class Wizard(Props):
     def __init__(self, orientation, velocity=(0, 0)):
