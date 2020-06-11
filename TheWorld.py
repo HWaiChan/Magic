@@ -87,7 +87,7 @@ class TheWorld(metaclass=Singleton):
         :return:
         '''
         print("Elements")
-        pprint([[len(j.elements) for j in i] for i in reversed(self.tiles)])
+        pprint([[len(j.effects) for j in i] for i in reversed(self.tiles)])
 
     def print_props_grid(self):
         '''
@@ -111,7 +111,7 @@ class TheWorld(metaclass=Singleton):
         elements = 0
         for i in self.tiles:
             for j in i:
-                elements += len(j.elements)
+                elements += len(j.effects)
         return elements
 
     def get_total_actions(self):

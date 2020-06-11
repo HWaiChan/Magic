@@ -1,4 +1,4 @@
-from Elements import *
+from Effects import *
 from Props import *
 from math import pi, cos, sin
 
@@ -38,7 +38,7 @@ class SpellEffectFire(SpellEffect):
 
     def create(self, props, elements):
         temperature = 400 + (100 * self.level)
-        elements.append(Fire(temperature))
+        props.append(Fire(temperature))
         return props, elements
 
 
@@ -51,7 +51,7 @@ class SpellEffectCold(SpellEffect):
 
     def create(self, props, elements):
         temperature = 0 - (25 * self.level)
-        elements.append(Water(temperature))
+        props.append(Water(temperature))
         return props, elements
 
 
@@ -64,7 +64,7 @@ class SpellEffectLightning(SpellEffect):
 
     def create(self, props, elements):
         power = (100 * self.level)
-        elements.append(Lightning(power))
+        props.append(Lightning(power))
         return props, elements
 
 

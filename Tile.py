@@ -6,14 +6,14 @@ class Tile:
     def __init__(self, coordinates):
         self.coordinates = coordinates
         self.actions = []
-        self.elements = []
+        self.effects = []
         self.props = []
         self.speech_log = []
         self.state = {"Temperature": 24, "Time": 1, "Force": (0, 0), "Voltage": 0, "Fuel": False, "Conductor": False}
 
     def resolve_tile(self):
         self.action_phase()
-        self.elements_phase()
+        self.effects_phase()
         self.props_phase()
 
     def speech_phase(self):
@@ -26,26 +26,29 @@ class Tile:
 
     def action_phase(self):
         for action in self.actions:
-            self.elements, self.props = action.act(self.elements, self.props)
+            self.effects, self.props = action.act(self.effects, self.props)
+        for props in self.props:
+            self.effects = props.prop_effects(self.effects)
         self.actions = []
 
-    def elements_phase(self):
+    def effects_phase(self):
         self.state['Fuel'] = False
         self.state['Conductor'] = False
         self.state['Voltage'] = 0
         self.state["Force"] = (0, 0)
 
-        for element in self.elements:
+        for element in self.effects:
             self.state = element.interact_on(self.state)
-        for objects_index, element in enumerate(self.elements):
-            self.elements[objects_index] = element.interact_from(self.state)
+        for objects_index, element in enumerate(self.effects):
+            self.effects[objects_index] = element.interact_from(self.state)
 
-        self.elements = list(filter(None, self.elements))
+        self.effects = list(filter(None, self.effects))
 
     def props_phase(self):
-        for prop in self.props:
-            prop.interact_from(self.state)
-            break
+        for objects_index, prop in enumerate(self.props):
+            self.props[objects_index] = prop.interact_from(self.state)
+
+        self.props = list(filter(None, self.props))
 
     def move_phase(self):
         props_that_want_to_move = []
@@ -63,7 +66,7 @@ class Tile:
         self.props.append(prop)
 
     def get_information(self):
-        return str(self.coordinates) + " with world effects " + str(len(self.elements))
+        return str(self.coordinates) + " with world effects " + str(len(self.effects))
 
     def immediate_action(self, action):
-        self.elements, self.props = action.act(self.elements, self.props)
+        self.effects, self.props = action.act(self.effects, self.props)
