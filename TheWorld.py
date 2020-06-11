@@ -27,7 +27,7 @@ class TheWorld(metaclass=Singleton):
         print("Starting The world.....")
         self.tiles = [[Tile([y, x]) for x in range(WORLD_SIZE)] for y in range(WORLD_SIZE)]
 
-    def add_spell(self, spell):
+    def add_spell(self, spell, prop):
         """
             Divvys up the spell_effects depending on the spell's shape, orientation and position.
         :param spell:
@@ -38,6 +38,7 @@ class TheWorld(metaclass=Singleton):
                                                       spell.shape.get_relative_affected_tiles())
         for true_c in true_coords:
             spell_effect_copy = copy.copy(spell.spell_effect)
+            spell_effect_copy.linked_caster = prop
             self.tiles[int(round(true_c[0]))][int(round(true_c[1]))].add_actions(spell_effect_copy)
 
     def add_prop(self, prop, location):
@@ -47,12 +48,16 @@ class TheWorld(metaclass=Singleton):
         for i in self.tiles:
             for j in i:
                 tile_speech_log = j.speech_phase()
-                for speech in tile_speech_log:
-                    if speech is not None:
-                        spells = SpellDecoder(speech).decode_spell(j.coordinates)
-                        if all(spell.castable() for spell in spells):
-                            for spell in spells:
-                                self.add_spell(spell)
+                for prop, prop_speech_log in tile_speech_log.items():
+                    for speech in prop_speech_log:
+                        if speech is not None:
+                            spells = SpellDecoder(speech).decode_spell(j.coordinates)
+                            if all(spell.castable() for spell in spells):
+                                for spell in spells:
+                                    if spell.concentration:
+                                        self.add_spell(spell, prop)
+                                    else:
+                                        self.add_spell(spell, None)
 
         for i in self.tiles:
             for j in i:

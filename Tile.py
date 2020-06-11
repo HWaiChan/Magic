@@ -8,7 +8,7 @@ class Tile:
         self.actions = []
         self.effects = []
         self.props = []
-        self.speech_log = []
+        self.speech_log = {}
         self.state = {"Temperature": 24, "Time": 1, "Force": (0, 0), "Voltage": 0, "Fuel": False, "Conductor": False}
 
     def resolve_tile(self):
@@ -17,11 +17,12 @@ class Tile:
         self.props_phase()
 
     def speech_phase(self):
-        self.speech_log =[]
+        self.speech_log = {}
         for prop in self.props:
             one_person_log = prop.return_speech()
+            self.speech_log[prop] = []
             for speech in one_person_log:
-                self.speech_log.append(speech)
+                self.speech_log[prop].append(speech)
         return self.speech_log
 
     def action_phase(self):

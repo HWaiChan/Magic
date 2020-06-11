@@ -6,17 +6,29 @@ the_world = TheWorld()
 
 Carl = Wizard(0, (0, 0))  # Lightning Steam boy
 Bob = Wizard(0, (0, 0))  # Magicka pro
-Jim = Wizard(0, (0, 0)) # Don't talk to him, he will murder you
+Jim = Wizard(0, (0, 0))  # Don't talk to him, he will murder you
+Fred = Wizard(0, (0, 0))  # he do a thing
 
 the_world.add_prop(Carl, (5, 5))
 the_world.add_prop(Jim, (6, 6))
 the_world.add_prop(Bob, (6, 8))
+the_world.add_prop(Fred, (1, 2))
+
+# Thundercloud
 Carl.shout('Cold 1 Create Square 3 Point -3 -1 Mana 25 And'
-           ' Fire 2 Create Rectangle 3 Self Mana 25 And'
+           ' Fire 2 Create Square 3 Self Mana 25 And'
            ' Lightning 2 Create Square 3 Self Mana 25')
-Bob.shout('Earth 2 Create Square 1 Self Mana 25')
-Bob.shout('Earth 3 Displace 35 Square 1 Self Mana 25')
+
+# Rock Throwing
+Bob.shout('Earth 2 Create Square 1 Self Mana 25 And Earth 3 Displace 35 Square 1 Self Mana 25')
+
+# Gravity Slingshot
 Jim.shout('Force 2 Create 0 Square 1 Point 1 1 Mana 25')
+
+# Firebolt
+Fred.shout('Fire 2 Create Square 3 Self Mana 25 Concentrate')
+
+the_world.resolve_tiles()
 the_world.resolve_tiles()
 Jim.movement((1, 1))
 the_world.resolve_tiles()

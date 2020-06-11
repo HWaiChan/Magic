@@ -12,6 +12,7 @@ class SpellEffect:
         self.level = level
         self.velocity = 0
         self.orientation = orientation
+        self.linked_caster = None
 
     def cost(self):
         return int(self.base_cost) + int(self.level)
@@ -39,6 +40,8 @@ class SpellEffectFire(SpellEffect):
     def create(self, props, elements):
         temperature = 400 + (100 * self.level)
         props.append(Fire(temperature))
+        if self.linked_caster is not None:
+            self.linked_caster.concentrated_effects_and_props.append(props[-1])
         return props, elements
 
 
@@ -52,6 +55,8 @@ class SpellEffectCold(SpellEffect):
     def create(self, props, elements):
         temperature = 0 - (25 * self.level)
         props.append(Water(temperature))
+        if self.linked_caster is not None:
+            self.linked_caster.concentrated_effects_and_props.append(props[-1])
         return props, elements
 
 
@@ -65,6 +70,8 @@ class SpellEffectLightning(SpellEffect):
     def create(self, props, elements):
         power = (100 * self.level)
         props.append(Lightning(power))
+        if self.linked_caster is not None:
+            self.linked_caster.concentrated_effects_and_props.append(props[-1])
         return props, elements
 
 
@@ -78,6 +85,8 @@ class SpellEffectEarth(SpellEffect):
     def create(self, props, elements):
         health = self.level * 50
         props.append(Boulder(self.orientation, health))
+        if self.linked_caster is not None:
+            self.linked_caster.concentrated_effects_and_props.append(props[-1])
         return props, elements
 
     def destroy(self, props, elements):
@@ -106,6 +115,8 @@ class SpellEffectForce(SpellEffect):
     def create(self, props, elements):
         power = (self.level, 0)
         elements.append(Force(power))
+        if self.linked_caster is not None:
+            self.linked_caster.concentrated_effects_and_props.append(elements[-1])
         return props, elements
 
 class SpellEffectTime(SpellEffect):

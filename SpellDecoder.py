@@ -17,7 +17,8 @@ class SpellDecoder:
                             'Rectangle': lambda string_num: Rectangle(int(string_num))}
         self.targeting_dict = {'Point': lambda position, **kw: Point(position, **kw),
                                'Self': lambda position: Self(position)}
-        self.affix_list = ['And', 'Then', 'Concentrate']
+        self.affix_list = ['And', 'Then']
+        self.concentration_key = 'Concentrate'
 
     # Todo Decode orientation / add direct targeting?
     def decode_spell(self, position):
@@ -73,6 +74,6 @@ class SpellDecoder:
 
         mana = spell_components[spell_components.index("Mana") + 1]
 
-        return Spell(effect, shape, target, mana)
+        return Spell(effect, shape, target, mana, self.concentration_key in spell_components)
 
 
