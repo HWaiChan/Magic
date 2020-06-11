@@ -27,6 +27,8 @@ class Tile:
     def action_phase(self):
         for action in self.actions:
             self.elements, self.props = action.act(self.elements, self.props)
+        for props in self.props:
+            self.elements = props.prop_effects(self.elements)
         self.actions = []
 
     def elements_phase(self):
@@ -43,9 +45,10 @@ class Tile:
         self.elements = list(filter(None, self.elements))
 
     def props_phase(self):
-        for prop in self.props:
-            prop.interact_from(self.state)
-            break
+        for objects_index, prop in enumerate(self.props):
+            self.props[objects_index] = prop.interact_from(self.state)
+
+        self.props = list(filter(None, self.props))
 
     def move_phase(self):
         props_that_want_to_move = []

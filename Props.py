@@ -27,6 +27,8 @@ class Props:
 
         self.internal_interact()
 
+        return self
+
     def internal_interact(self):
         pass
 
@@ -80,9 +82,11 @@ class Fire(Props):
         self.temperature = state["Temperature"]
         self.remaining_duration -= 1
         if self.temperature > 300 and (state['Fuel'] or self.remaining_duration > 0):
-            self.health = 0
+            return self
+        else:
+            return None
 
     def prop_effects(self, effects):
         if self.health > 0:
-            effects.add(Heat(self.temperature))
+            effects.append(Heat(self.temperature))
         return effects
