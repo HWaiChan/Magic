@@ -96,8 +96,9 @@ class Fire(Props):
 
 class Water(Props):
     def __init__(self, temperature, velocity=(0, 0)):
-        Effects.__init__(self, velocity)
+        Props.__init__(self, velocity)
         self.temperature = temperature
+        self.collidable = False
 
     def interact_from(self, state):
         self.temperature = state["Temperature"]
@@ -116,9 +117,11 @@ class Water(Props):
         effects.append(Conductivity())
         return effects
 
+
 class Ice(Water):
     def __init__(self, temperature, velocity=(0, 0)):
         Water.__init__(self, temperature, velocity)
+        self.collidable = True
 
     def check_status(self, state):
         if self.temperature < 0:
@@ -152,9 +155,10 @@ class Steam(Water):
 
 class Lightning(Props):
     def __init__(self, power, velocity=(0, 0)):
-        Effects.__init__(self, velocity)
+        Props.__init__(self, velocity)
         self.power = power
         self.remaining_duration = 2
+        self.collidable = False
 
     def interact_from(self, state):
         self.remaining_duration -= 1
