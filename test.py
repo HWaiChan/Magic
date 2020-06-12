@@ -26,12 +26,15 @@ the_world.add_prop(Fred, (1, 2))
 #Jim.shout('Force 2 Create 0 Square 1 Point 1 1 Mana 25')
 
 # Firebolt
-Fred.shout('Fire 2 Create Square 3 Self Mana 25 Repeat')
+Fred.shout('Fire 3 Create Square 1 Self Mana 25 Concentrate Then Fire 3 Create Square 3 Self Mana 25')
 
 the_world.resolve_tiles()
+the_world.print_props_grid()
 the_world.resolve_tiles()
-Jim.movement((1, 1))
+the_world.print_props_grid()
+Fred.is_concentrating = False
 the_world.resolve_tiles()
+
 the_world.print_props_grid()
 print("Jim HP: " + str(Jim.health))
 print("Jim Mana: " + str(Jim.mana))

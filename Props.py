@@ -45,6 +45,7 @@ class Wizard(Props):
         self.controlled_movement = (0, 0)
         self.added_movement = (0, 0)
         self.concentrated_effects_and_props = []
+        self.is_concentrating = True
 
     def shout(self, string):
         components = string.split()
@@ -67,9 +68,9 @@ class Wizard(Props):
         self.added_movement = self.controlled_movement
         self.controlled_movement = (0, 0)
 
-        for effects_and_props in self.concentrated_effects_and_props:
-            effects_and_props.remaining_duration = effects_and_props.remaining_duration + 1
-
+        if self.is_concentrating:
+            for effects_and_props in self.concentrated_effects_and_props:
+                effects_and_props.remaining_duration = effects_and_props.remaining_duration + 1
 
 
 class Boulder(Props):

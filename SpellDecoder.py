@@ -31,13 +31,21 @@ class SpellDecoder:
                     spells.append(self.create_spell(position, spell_components[last_affix_index:component_index]))
                     last_affix_index = component_index + 1
                 else:
-                    spells.append(self.create_spell(spells[0].target.position, spell_components[last_affix_index:component_index]))
+                    if spell_components[last_affix_index - 1] == self.conjunction_list[1]:
+                        spells.append(self.create_spell(spells[0].target.position, spell_components[last_affix_index:component_index + 1]))
+                        spells[-1].delayed_spell_link = spells[0]
+                    else:
+                        spells.append(self.create_spell(spells[-1].target.position, spell_components[last_affix_index:component_index]))
                     last_affix_index = component_index + 1
             elif component_index + 1 == len(spell_components):
                 if len(spells) == 0:
                     spells.append(self.create_spell(position, spell_components[last_affix_index:component_index + 1]))
                 else:
-                    spells.append(self.create_spell(spells[0].target.position, spell_components[last_affix_index:component_index + 1]))
+                    if spell_components[last_affix_index - 1] == self.conjunction_list[1]:
+                        spells.append(self.create_spell(spells[0].target.position, spell_components[last_affix_index:component_index + 1]))
+                        spells[-1].delayed_spell_link = spells[0]
+                    else:
+                        spells.append(self.create_spell(spells[-1].target.position, spell_components[last_affix_index:component_index + 1]))
 
         return spells
 

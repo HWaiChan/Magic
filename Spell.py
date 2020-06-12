@@ -7,6 +7,7 @@ class Spell:
         self.concentration = concentration
         self.repeat = repeat
         self.code = spell_code
+        self.delayed_spell_link = None
 
     def castable(self):
         return self.target.cost() * self.spell_effect.cost() < int(self.mana)
