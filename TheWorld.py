@@ -36,8 +36,7 @@ class TheWorld(metaclass=Singleton):
         :param world_action such as a Spell
         :return:
         """
-        true_coords = WorldMaths.get_true_coordinates(spell.target.position, spell.shape.orientation,
-                                                      spell.shape.get_relative_affected_tiles())
+
         if spell.repeat:
             spell.spell_effect.linked_caster.shout(" ".join(spell.code))
 
@@ -50,15 +49,26 @@ class TheWorld(metaclass=Singleton):
                 if spell.delayed_spell_link.spell_effect.linked_caster.is_concentrating:
                     self.stored_spells.append(spell)
                     return
+                else:
+                    if len(spell.delayed_spell_link.spell_effect.created_props) > 0:
+                        # not coded for if more then one created prop
+                        spell.target.position = spell.delayed_spell_link.spell_effect.created_props[0].coords
 
-        for true_c in true_coords:
+        true_coords = WorldMaths.get_true_coordinates(spell.target.position, spell.shape.orientation,
+                                                      spell.shape.get_relative_affected_tiles())
+
+        for index, true_c in enumerate(true_coords):
+
             spell_effect_copy = copy.copy(spell.spell_effect)
             if spell.repeat:
                 spell_effect_copy.linked_caster = None
-            self.tiles[int(round(true_c[0]))][int(round(true_c[1]))].add_actions(spell_effect_copy)
+            if index != (len(true_coords) - 1) / 2:
+                self.tiles[int(round(true_c[0]))][int(round(true_c[1]))].add_actions(spell_effect_copy)
+            else:
+                self.tiles[int(round(true_c[0]))][int(round(true_c[1]))].add_actions(spell.spell_effect)
 
     def add_prop(self, prop, location):
-        self.tiles[location[0]][location[1]].props.append(prop)
+        self.tiles[location[0]][location[1]].add_prop_to_tile(prop)
 
     def resolve_tiles(self):
         self.attempt_spells = copy.copy(self.stored_spells)
@@ -92,7 +102,7 @@ class TheWorld(metaclass=Singleton):
         for prop, coord in props_that_want_to_move:
             if coord[0] + int(prop.velocity[0]) <= len(self.tiles) - 1 and \
                     coord[1] + int(prop.velocity[1]) <= len(self.tiles[0]) - 1:
-                self.tiles[coord[0] + int(prop.velocity[0])][coord[1] + int(prop.velocity[1])].add_prop(prop)
+                self.tiles[coord[0] + int(prop.velocity[0])][coord[1] + int(prop.velocity[1])].add_prop_to_tile(prop)
             if prop.velocity[0] == 0:
                 rotation_angle = 90
             elif prop.velocity[1] == 0:

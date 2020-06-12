@@ -7,9 +7,9 @@ from SpellEffect import *
 class SpellDecoder:
     def __init__(self, incantation):
         self.incantation = incantation
-        self.spell_effects_dict = {'Fire': lambda string_num, action_string: SpellEffectFire(int(string_num), action_string),
-                                   'Cold': lambda string_num, action_string: SpellEffectCold(int(string_num), action_string),
-                                   'Lightning': lambda string_num, action_string: SpellEffectLightning(int(string_num), action_string),
+        self.spell_effects_dict = {'Fire': lambda string_num, action_string, **kw: SpellEffectFire(int(string_num), action_string, **kw),
+                                   'Cold': lambda string_num, action_string, **kw: SpellEffectCold(int(string_num), action_string, **kw),
+                                   'Lightning': lambda string_num, action_string, **kw: SpellEffectLightning(int(string_num), action_string, **kw),
                                    'Earth': lambda string_num, action_string, **kw: SpellEffectEarth(int(string_num), action_string, **kw),
                                    'Force': lambda string_num, action_string, **kw: SpellEffectForce(int(string_num), action_string, **kw)}
         self.action_list = ['Create', 'Destroy', 'Displace']

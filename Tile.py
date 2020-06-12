@@ -51,6 +51,10 @@ class Tile:
 
         self.props = list(filter(None, self.props))
 
+        # This is silly
+        for prop in self.props:
+            prop.coords = self.coordinates
+
     def move_phase(self):
         props_that_want_to_move = []
         for prop in self.props:
@@ -62,8 +66,9 @@ class Tile:
     def add_actions(self, action):
         self.actions.append(action)
 
-    def add_prop(self, prop):
+    def add_prop_to_tile(self, prop):
         # Todo remove controlled movement
+        prop.coords = self.coordinates
         self.props.append(prop)
 
     def get_information(self):

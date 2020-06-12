@@ -9,6 +9,7 @@ class Props:
         self.health = health
         self.mana = 1
         self.collidable = True
+        self.coords = None
 
     def want_to_move(self):
         return self.velocity != (0, 0)
