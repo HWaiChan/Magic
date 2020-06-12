@@ -36,9 +36,13 @@ class TheWorld(metaclass=Singleton):
         """
         true_coords = WorldMaths.get_true_coordinates(spell.target.position, spell.shape.orientation,
                                                       spell.shape.get_relative_affected_tiles())
+        if spell.repeat:
+            prop.shout(" ".join(spell.code))
         for true_c in true_coords:
             spell_effect_copy = copy.copy(spell.spell_effect)
-            spell_effect_copy.linked_caster = prop
+            if spell.concentration:
+                spell_effect_copy.linked_caster = prop
+
             self.tiles[int(round(true_c[0]))][int(round(true_c[1]))].add_actions(spell_effect_copy)
 
     def add_prop(self, prop, location):
@@ -55,6 +59,8 @@ class TheWorld(metaclass=Singleton):
                             if all(spell.castable() for spell in spells):
                                 for spell in spells:
                                     if spell.concentration:
+                                        self.add_spell(spell, prop)
+                                    elif spell.repeat:
                                         self.add_spell(spell, prop)
                                     else:
                                         self.add_spell(spell, None)

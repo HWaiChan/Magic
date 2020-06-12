@@ -17,8 +17,8 @@ class SpellDecoder:
                             'Rectangle': lambda string_num: Rectangle(int(string_num))}
         self.targeting_dict = {'Point': lambda position, **kw: Point(position, **kw),
                                'Self': lambda position: Self(position)}
-        self.affix_list = ['And', 'Then']
-        self.concentration_key = 'Concentrate'
+        self.conjunction_list = ['And', 'Then']
+        self.affix_list = ['Concentrate', 'Repeat']
 
     # Todo Decode orientation / add direct targeting?
     def decode_spell(self, position):
@@ -26,7 +26,7 @@ class SpellDecoder:
         spell_components = self.incantation.split()
         last_affix_index = 0
         for component_index, component in enumerate(spell_components):
-            if component in self.affix_list:
+            if component in self.conjunction_list:
                 if len(spells) == 0:
                     spells.append(self.create_spell(position, spell_components[last_affix_index:component_index]))
                     last_affix_index = component_index + 1
@@ -38,7 +38,6 @@ class SpellDecoder:
                     spells.append(self.create_spell(position, spell_components[last_affix_index:component_index + 1]))
                 else:
                     spells.append(self.create_spell(spells[0].target.position, spell_components[last_affix_index:component_index + 1]))
-
 
         return spells
 
@@ -74,6 +73,7 @@ class SpellDecoder:
 
         mana = spell_components[spell_components.index("Mana") + 1]
 
-        return Spell(effect, shape, target, mana, self.concentration_key in spell_components)
+        return Spell(effect, shape, target, mana, self.affix_list[0] in spell_components,
+                     self.affix_list[1] in spell_components, spell_components)
 
 

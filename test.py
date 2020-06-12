@@ -15,18 +15,18 @@ the_world.add_prop(Bob, (6, 8))
 the_world.add_prop(Fred, (1, 2))
 
 # Thundercloud
-Carl.shout('Cold 1 Create Square 3 Point -3 -1 Mana 25 And'
-           ' Fire 2 Create Square 3 Self Mana 25 And'
-           ' Lightning 2 Create Square 3 Self Mana 25')
+#Carl.shout('Cold 1 Create Square 3 Point -3 -1 Mana 25 And'
+           #' Fire 2 Create Square 3 Self Mana 25 And'
+           #' Lightning 2 Create Square 3 Self Mana 25')
 
 # Rock Throwing
-Bob.shout('Earth 2 Create Square 1 Self Mana 25 And Earth 3 Displace 35 Square 1 Self Mana 25')
+#Bob.shout('Earth 2 Create Square 1 Self Mana 25 And Earth 3 Displace 35 Square 1 Self Mana 25')
 
 # Gravity Slingshot
-Jim.shout('Force 2 Create 0 Square 1 Point 1 1 Mana 25')
+#Jim.shout('Force 2 Create 0 Square 1 Point 1 1 Mana 25')
 
 # Firebolt
-Fred.shout('Fire 2 Create Square 3 Self Mana 25 Concentrate')
+Fred.shout('Fire 2 Create Square 3 Self Mana 25 Repeat')
 
 the_world.resolve_tiles()
 the_world.resolve_tiles()
