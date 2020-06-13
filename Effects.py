@@ -4,6 +4,7 @@ from math import pi, cos, sin
 class Effects:
     def __init__(self, velocity=(0, 0)):
         self.velocity = velocity
+        self.coords = None
 
     def interact_on(self, state):
         return state

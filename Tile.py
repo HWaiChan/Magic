@@ -45,6 +45,10 @@ class Tile:
 
         self.effects = list(filter(None, self.effects))
 
+        # This is silly
+        for effect in self.effects:
+            effect.coords = self.coordinates
+
     def props_phase(self):
         for objects_index, prop in enumerate(self.props):
             self.props[objects_index] = prop.interact_from(self.state)
