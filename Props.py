@@ -71,7 +71,7 @@ class Wizard(Props):
 
         if self.is_concentrating:
             for effects_and_props in self.concentrated_effects_and_props:
-                effects_and_props.remaining_duration = effects_and_props.remaining_duration + 1
+                effects_and_props.maintained = True
 
 
 class Boulder(Props):
@@ -84,16 +84,20 @@ class Fire(Props):
         Props.__init__(self, orientation, velocity=velocity)
         self.collidable = False
         self.remaining_duration = 2
+        self.maintained = False
         self.temperature = temperature
 
     def interact_from(self, state):
 
         self.temperature = state["Temperature"]
         self.remaining_duration -= 1
-        return self.check_status(state)
+
+        status = self.check_status(state)
+        self.maintained = False
+        return status
 
     def check_status(self, state):
-        if self.temperature > 300 and (state['Fuel'] or self.remaining_duration > 0):
+        if self.temperature > 300 and (state['Fuel'] or self.remaining_duration > 0) or self.maintained:
             return self
         else:
             return None
