@@ -71,51 +71,60 @@ class TheWorld(metaclass=Singleton):
         self.tiles[location[0]][location[1]].add_prop_to_tile(prop)
 
     def resolve_tiles(self):
+        max_time_state = 1;
+        for i in self.tiles:
+            for j in i:
+                if j.state["Time"] > max_time_state:
+                    max_time_state = j.state["Time"]
+
         self.attempt_spells = copy.copy(self.stored_spells)
         self.stored_spells = []
         for spell in self.attempt_spells:
             self.add_spell(spell)
 
-        for i in self.tiles:
-            for j in i:
-                tile_speech_log = j.speech_phase()
-                for prop, prop_speech_log in tile_speech_log.items():
-                    for speech in prop_speech_log:
-                        if speech is not None:
-                            spells = SpellDecoder(speech).decode_spell(j.coordinates)
-                            if all(spell.castable() for spell in spells):
-                                for spell in spells:
-                                    if spell.concentration or spell.repeat:
-                                        spell.spell_effect.linked_caster = prop
-                                    self.add_spell(spell)
+        for time_state in range(1, max_time_state + 1):
+            for i in self.tiles:
+                for j in i:
+                    if j.state["Time"] >= max_time_state:
+                        tile_speech_log = j.speech_phase()
+                        for prop, prop_speech_log in tile_speech_log.items():
+                            for speech in prop_speech_log:
+                                if speech is not None:
+                                    spells = SpellDecoder(speech).decode_spell(j.coordinates)
+                                    if all(spell.castable() for spell in spells):
+                                        for spell in spells:
+                                            if spell.concentration or spell.repeat:
+                                                spell.spell_effect.linked_caster = prop
+                                            self.add_spell(spell)
 
+            for i in self.tiles:
+                for j in i:
+                    if j.state["Time"] >= max_time_state:
+                        j.resolve_tile()
 
-        for i in self.tiles:
-            for j in i:
-                j.resolve_tile()
+            props_that_want_to_move = []
+            for i in self.tiles:
+                for j in i:
+                    if j.state["Time"] >= max_time_state:
+                        props_that_want_to_move = props_that_want_to_move + j.move_phase()
 
-        props_that_want_to_move = []
-        for i in self.tiles:
-            for j in i:
-                props_that_want_to_move = props_that_want_to_move + j.move_phase()
-
-        for prop, coord in props_that_want_to_move:
-            if coord[0] + int(prop.velocity[0]) <= len(self.tiles) - 1 and \
-                    coord[1] + int(prop.velocity[1]) <= len(self.tiles[0]) - 1:
-                self.tiles[coord[0] + int(prop.velocity[0])][coord[1] + int(prop.velocity[1])].add_prop_to_tile(prop)
-            if prop.velocity[0] == 0:
-                rotation_angle = 90
-            elif prop.velocity[1] == 0:
-                rotation_angle = 0
-            else:
-                rotation_angle = np.arctan(prop.velocity[0] / prop.velocity[1]) * 180 / pi
-            line = Line(int(np.hypot(prop.velocity[0], prop.velocity[1])))
-            true_coords = WorldMaths.get_true_coordinates(coord, rotation_angle,
-                                                          line.get_relative_affected_tiles())
-            for true_c in true_coords:
-                if true_c[0] <= len(self.tiles) - 1 and true_c[1] <= len(self.tiles[0]) - 1:
-                    self.tiles[true_c[0]][true_c[1]].immediate_action(
-                        PhysicalEffectPropDamage(int(np.hypot(prop.velocity[0], prop.velocity[1])) * 10))
+            for prop, coord in props_that_want_to_move:
+                if coord[0] + int(prop.velocity[0]) <= len(self.tiles) - 1 and \
+                        coord[1] + int(prop.velocity[1]) <= len(self.tiles[0]) - 1:
+                    self.tiles[coord[0] + int(prop.velocity[0])][coord[1] + int(prop.velocity[1])].add_prop_to_tile(prop)
+                if prop.velocity[0] == 0:
+                    rotation_angle = 90
+                elif prop.velocity[1] == 0:
+                    rotation_angle = 0
+                else:
+                    rotation_angle = np.arctan(prop.velocity[0] / prop.velocity[1]) * 180 / pi
+                line = Line(int(np.hypot(prop.velocity[0], prop.velocity[1])))
+                true_coords = WorldMaths.get_true_coordinates(coord, rotation_angle,
+                                                              line.get_relative_affected_tiles())
+                for true_c in true_coords:
+                    if true_c[0] <= len(self.tiles) - 1 and true_c[1] <= len(self.tiles[0]) - 1:
+                        self.tiles[true_c[0]][true_c[1]].immediate_action(
+                            PhysicalEffectPropDamage(int(np.hypot(prop.velocity[0], prop.velocity[1])) * 10))
 
     def print_elements_grid(self):
         '''
