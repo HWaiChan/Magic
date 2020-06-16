@@ -2,6 +2,7 @@ from Effects import *
 from Props import *
 from math import pi, cos, sin
 
+
 class SpellEffect:
     def __init__(self, level, action_type, orientation=0):
         self.type = None
@@ -120,6 +121,7 @@ class SpellEffectEarth(SpellEffect):
 
         return props, elements
 
+
 class SpellEffectForce(SpellEffect):
     def __init__(self, level, action_type, orientation=0):
         SpellEffect.__init__(self, level, action_type, float(orientation))
@@ -133,6 +135,7 @@ class SpellEffectForce(SpellEffect):
         if self.linked_caster is not None:
             self.linked_caster.concentrated_effects_and_props.append(elements[-1])
         return props, elements
+
 
 class SpellEffectTime(SpellEffect):
     def __init__(self, level, action_type, orientation=0):

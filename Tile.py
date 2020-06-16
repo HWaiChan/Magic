@@ -9,12 +9,14 @@ class Tile:
         self.effects = []
         self.props = []
         self.speech_log = {}
-        self.state = {"Temperature": 24, "Time": 1, "Force": (0, 0), "Voltage": 0, "Fuel": False, "Conductor": False}
+        self.internal_clock = 0
+        self.state = {"Temperature": 24, "Rate_of_Time": 1, "Force": (0, 0), "Voltage": 0, "Fuel": False, "Conductor": False}
 
     def resolve_tile(self):
         self.action_phase()
         self.effects_phase()
         self.props_phase()
+        self.internal_clock = self.internal_clock - 4.0
 
     def speech_phase(self):
         self.speech_log = {}
@@ -80,3 +82,9 @@ class Tile:
 
     def immediate_action(self, action):
         self.effects, self.props = action.act(self.effects, self.props)
+
+    def relative_time_till_action(self):
+        return(4 - self.internal_clock)/self.state["Rate_of_Time"]
+
+    def relative_time_passed(self, time):
+        self.internal_clock = self.internal_clock + time/self.state["Rate_of_Time"]
