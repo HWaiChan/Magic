@@ -16,7 +16,6 @@ class Tile:
         self.action_phase()
         self.effects_phase()
         self.props_phase()
-        self.internal_clock = self.internal_clock - 4.0
 
     def speech_phase(self):
         self.speech_log = {}
@@ -88,3 +87,6 @@ class Tile:
 
     def relative_time_passed(self, time):
         self.internal_clock = self.internal_clock + time/self.state["Rate_of_Time"]
+
+    def tile_resolved(self):
+        self.internal_clock = self.internal_clock - 4.0

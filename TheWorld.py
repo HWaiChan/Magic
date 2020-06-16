@@ -110,6 +110,7 @@ class TheWorld(metaclass=Singleton):
             for j in i:
                 if j.internal_clock >= 4:
                     props_that_want_to_move = props_that_want_to_move + j.move_phase()
+                    j.tile_resolved()
 
         for prop, coord in props_that_want_to_move:
             if coord[0] + int(prop.velocity[0]) <= len(self.tiles) - 1 and \
