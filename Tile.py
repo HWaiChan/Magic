@@ -86,7 +86,7 @@ class Tile:
         return(4 - self.internal_clock)/self.state["Rate_of_Time"]
 
     def relative_time_passed(self, time):
-        self.internal_clock = self.internal_clock + time/self.state["Rate_of_Time"]
+        self.internal_clock = self.internal_clock + time*self.state["Rate_of_Time"]
 
     def tile_resolved(self):
         self.internal_clock = self.internal_clock - 4.0
