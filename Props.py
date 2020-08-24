@@ -51,7 +51,7 @@ class Wizard(Props):
     def shout(self, string):
         components = string.split()
         if "Mana" in components:
-            if self.mana > int(components[components.index("Mana") + 1]):
+            if self.mana >= int(components[components.index("Mana") + 1]):
                 self.mana = self.mana - int(components[components.index("Mana") + 1])
                 self.said.append(string)
 

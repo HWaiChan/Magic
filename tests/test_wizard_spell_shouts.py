@@ -4,10 +4,10 @@ import pytest
 
 @pytest.mark.parametrize("initial_wizard_mana, spell_cost, expect_cast, final_wizard_mana",
                         [(100, 25, True, 75),
-                         (25, 25, False, 25), #TODO Check behaviour
+                         (25, 25, True, 0),
                          (10, 25, False, 10),
                          (10, 0, True, 10),
-                         (0, 0, False, 0)]) #TODO Check behaviour
+                         (0, 0, True, 0)])
 def test_shout_spends_mana(initial_wizard_mana, spell_cost, expect_cast, final_wizard_mana):
     wizard = Wizard(0, (0, 0))
     wizard.mana = initial_wizard_mana
