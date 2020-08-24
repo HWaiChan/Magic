@@ -60,9 +60,6 @@ class Wizard(Props):
         self.said = []
         return speech
 
-    def movement(self, velocity):
-        self.controlled_movement = velocity
-
     def internal_interact(self):
         self.velocity = (self.velocity[0] - self.added_movement[0], self.velocity[1] - self.added_movement[1])
         self.velocity = (self.velocity[0] + self.controlled_movement[0], self.velocity[1] + self.controlled_movement[1])
