@@ -18,4 +18,3 @@ def test_shout_spends_mana(initial_wizard_mana, spell_cost, expect_cast, final_w
         assert shout_string in wizard.said
     else:
         assert shout_string not in wizard.said
-
